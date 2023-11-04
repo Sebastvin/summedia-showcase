@@ -5,12 +5,14 @@ from engineer_demo.twitter import Twitter
 from django.views.decorators.cache import cache_page
 from django.conf import settings
 import openai
+from django.views.generic import TemplateView
+
 
 openai.api_key = settings.OPENAI_API_KEY
 
 # Create your views here.
-def index(request):
-    return render(request, "landing_page/home.html",)
+class IndexView(TemplateView):
+    template_name = "landing_page/home.html"
 
 @cache_page(60 * 15)
 def get_text_article(request):
