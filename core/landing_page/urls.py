@@ -1,9 +1,9 @@
 from django.urls import path
-from landing_page.views import index, text_from_article, workshop_article, workshop_twitter
+from landing_page.views import IndexView, TextView, WorkshopArticleView, WorkshopTwitterView
 
 urlpatterns = [
-    path("", index, name="home"),
-    path("article-text", text_from_article, name="text_article"),
-    path("workshop_article", workshop_article, name="text"),
-    path("workshop_twitter", workshop_twitter, name="twitter"),
+    path("", IndexView.as_view(), name="home"),
+    path("article-text", TextView.as_view(), name="text_article"),
+    path("workshop_article", WorkshopArticleView.as_view(), name="text"),
+    path("workshop_twitter", WorkshopTwitterView.as_view(), name="twitter"),
 ]
