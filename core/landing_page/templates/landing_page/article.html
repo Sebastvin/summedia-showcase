@@ -4,11 +4,12 @@
 {% block body %}
 
 <h1>Article</h1>
+{% include "landing_page/includes/input_form.html" %}
 
-<p>{{ text_article }}</p>
+{% if text_article %}<p>{{ text_article }}</p>{% endif %}
 
-<p>{{ analyze_sentiment }}</p>
+{% if condense_text_to_tweet %}<p>{{ condense_text_to_tweet }}</p>{% endif %}
 
-<p>{{ summary_article }}</p>
+{% if summary_article %}<p>{{ summary_article }}</p>{% endif %}
 
 {% endblock %}

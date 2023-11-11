@@ -4,7 +4,15 @@
 {% block body %}
 
 <h1>Twitter</h1>
+{% include "landing_page/includes/input_form.html" %}
 
-{{ condense_text_to_tweet }}
+{% if condense_text_to_tweet %}
+<div class="card text-center">
+  <div class="card-body">
+    <p class="card-text">{{ condense_text_to_tweet }}</p>
+  </div>
+</div>
+{% endif %}
+
 
 {% endblock %}

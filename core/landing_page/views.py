@@ -23,31 +23,36 @@ class IndexView(TemplateView):
 class TextView(View):
     def get(self, request):
         form = URLInputForm()
-        return render(request, "landing_page/input_form.html", {"form": form})
+        return render(request, "landing_page/text.html", {"form": form})
 
     def post(self, request):
         form = URLInputForm(request.POST)
         if form.is_valid():
             url = form.cleaned_data["url"]
             text_article = get_text_from_article(url)
-
             time_read = article_time_read(text_article)
-
             img_urls = get_images_from_html(url)
 
-            return render(
-                request,
-                "landing_page/text.html",
-                {"text": text_article, "time_read": time_read, "img_urls": img_urls},
-            )
-        return render(request, "landing_page/input_form.html", {"form": form})
+            # Create a new instance of the form for rendering
+            new_form = URLInputForm()
+
+            context = {
+                "text": text_article,
+                "time_read": time_read,
+                "img_urls": img_urls,
+                "form": new_form,
+            }
+
+            return render(request, "landing_page/text.html", context)
+        else:
+            return render(request, "landing_page/text.html", {"form": form})
 
 
 class ArticleView(View):
     def get(self, request):
         form = URLInputForm()
 
-        return render(request, "landing_page/input_form.html", {"form": form})
+        return render(request, "landing_page/article.html", {"form": form})
 
     def post(self, request):
         form = URLInputForm(request.POST)
@@ -57,21 +62,26 @@ class ArticleView(View):
             text = Text()
             summary_article = text.summarize_text(text_article, 200)
             analyze_sentiment = text.analyze_sentiment(text_article)
-            return render(
-                request,
-                "landing_page/article.html",
-                {
-                    "analyze_sentiment": analyze_sentiment,
-                    "text_article": text_article,
-                    "summary_article": summary_article,
-                },
-            )
+
+            new_form = URLInputForm()
+
+            context = {
+                "analyze_sentiment": analyze_sentiment,
+                "text_article": text_article,
+                "summary_article": summary_article,
+                "form": new_form,
+            }
+
+            return render(request, "landing_page/article.html", context)
+        else:
+            # In case the form is not valid, re-render the page with the form containing validation errors
+            return render(request, "landing_page/article.html", {"form": form})
 
 
 class TwitterView(View):
     def get(self, request):
         form = URLInputForm()
-        return render(request, "landing_page/input_form.html", {"form": form})
+        return render(request, "landing_page/twitter.html", {"form": form})
 
     def post(self, request):
         form = URLInputForm(request.POST)
@@ -80,8 +90,14 @@ class TwitterView(View):
             text_article = get_text_from_article(url)
             twitter = Twitter()
             condense_text_to_tweet = twitter.condense_text_to_tweet(text_article)
-            return render(
-                request,
-                "landing_page/twitter.html",
-                {"condense_text_to_tweet": condense_text_to_tweet},
-            )
+
+            new_form = URLInputForm()
+
+            context = {
+                "form": new_form,  # Include the form in the context
+                "condense_text_to_tweet": condense_text_to_tweet,
+            }
+            return render(request, "landing_page/twitter.html", context)
+        else:
+            # In case the form is not valid, re-render the page with the form containing validation errors
+            return render(request, "landing_page/twitter.html", {"form": form})

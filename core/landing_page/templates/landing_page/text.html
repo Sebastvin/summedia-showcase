@@ -3,15 +3,14 @@
 
 {% block body %}
 
-<h1>Article</h1>
+<h1>Text</h1>
+{% include "landing_page/includes/input_form.html" %}
 
-
-{{ text|safe }}
+{% if text %}<p>{{ text|safe }}</p>{% endif %}
 </br>
-<p>Time read: <b>{{ time_read }}</b> mins</p>
+{% if time_read %}<p>Time read: <b>{{ time_read }}</b> mins</p>{% endif %}
 </br>
-<p>{{ img_urls }}</p>
-
+{% if img_urls %}<p>{{ img_urls }}</p>{% endif %}
 
 
 {% endblock %}
