@@ -24,9 +24,11 @@ class TextView(View):
     def post(self, request):
         form = URLInputForm(request.POST)
         if form.is_valid():
-            url = form.cleaned_data['url']
+            url = form.cleaned_data["url"]
             text_article = get_text_from_article(url)
-            return render(request, "landing_page/article_text.html", {"text": text_article})
+            return render(
+                request, "landing_page/article_text.html", {"text": text_article}
+            )
         return render(request, "landing_page/input_form.html", {"form": form})
 
 
@@ -39,11 +41,15 @@ class WorkshopArticleView(View):
     def post(self, request):
         form = URLInputForm(request.POST)
         if form.is_valid():
-            url = form.cleaned_data['url']
+            url = form.cleaned_data["url"]
             text_article = get_text_from_article(url)
             text = Text()
             analyze_sentiment = text.analyze_sentiment(text_article)
-            return render(request, "landing_page/text.html", {"analyze_sentiment": analyze_sentiment, "text_article": text_article})
+            return render(
+                request,
+                "landing_page/text.html",
+                {"analyze_sentiment": analyze_sentiment, "text_article": text_article},
+            )
 
 
 class WorkshopTwitterView(View):
@@ -54,8 +60,12 @@ class WorkshopTwitterView(View):
     def post(self, request):
         form = URLInputForm(request.POST)
         if form.is_valid():
-            url = form.cleaned_data['url']
+            url = form.cleaned_data["url"]
             text_article = get_text_from_article(url)
             twitter = Twitter()
             condense_text_to_tweet = twitter.condense_text_to_tweet(text_article)
-            return render(request, "landing_page/twitter.html", {"condense_text_to_tweet": condense_text_to_tweet})
+            return render(
+                request,
+                "landing_page/twitter.html",
+                {"condense_text_to_tweet": condense_text_to_tweet},
+            )

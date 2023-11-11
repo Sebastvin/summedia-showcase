@@ -1,11 +1,17 @@
-<a href="/article-text">
-    <button>TEXT</button>
+{% extends 'landing_page/base.html' %}
+
+
+{% block body %}
+
+<a href="{% url 'text' %}">
+   <button type="button" class="btn btn-primary">TEXT</button>
 </a>
 
-<a href="/workshop_article">
-    <button>ARTICLE</button>
+<a href="{% url 'article' %}">
+    <button type="button" class="btn btn-primary">ARTICLE</button>
 </a>
 
-<a href="/workshop_twitter">
-    <button>TWITTER</button>
+<a href="{% url 'twitter' %}">
+    <button type="button" class="btn btn-primary">TWITTER</button>
 </a>
+{% endblock %}
