@@ -16,10 +16,15 @@ IS_HEROKU_APP = "DYNO" in os.environ and not "CI" in os.environ
 if not IS_HEROKU_APP:
     DEBUG = True
 
+
 if IS_HEROKU_APP:
-    ALLOWED_HOSTS = ["*"]
+    ALLOWED_HOSTS = [
+        "https://showcase-6f9e66e0a337.herokuapp.com/",
+    ]
+    SECRET_KEY = os.environ.get("OPENAI_API_KEY")
+
 else:
-    ALLOWED_HOSTS = ["https://showcase-6f9e66e0a337.herokuapp.com/", "127.0.0.1"]
+    ALLOWED_HOSTS = ["127.0.0.1"]
 
 
 # Application definition
