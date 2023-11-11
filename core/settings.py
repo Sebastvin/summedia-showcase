@@ -34,7 +34,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "landing_page",
     "engineer_demo",
-    "core",
 ]
 
 MIDDLEWARE = [
