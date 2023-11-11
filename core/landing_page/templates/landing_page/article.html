@@ -3,10 +3,12 @@
 
 {% block body %}
 
-<h1>Text</h1>
+<h1>Article</h1>
 
-{{ text_article }}
-<p>-----------------------</p>
-{{ analyze_sentiment }}
+<p>{{ text_article }}</p>
+
+<p>{{ analyze_sentiment }}</p>
+
+<p>{{ summary_article }}</p>
 
 {% endblock %}

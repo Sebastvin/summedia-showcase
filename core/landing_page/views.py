@@ -43,7 +43,7 @@ class TextView(View):
         return render(request, "landing_page/input_form.html", {"form": form})
 
 
-class WorkshopArticleView(View):
+class ArticleView(View):
     def get(self, request):
         form = URLInputForm()
 
@@ -55,15 +55,20 @@ class WorkshopArticleView(View):
             url = form.cleaned_data["url"]
             text_article = get_text_from_article(url)
             text = Text()
+            summary_article = text.summarize_text(text_article, 200)
             analyze_sentiment = text.analyze_sentiment(text_article)
             return render(
                 request,
                 "landing_page/article.html",
-                {"analyze_sentiment": analyze_sentiment, "text_article": text_article},
+                {
+                    "analyze_sentiment": analyze_sentiment,
+                    "text_article": text_article,
+                    "summary_article": summary_article,
+                },
             )
 
 
-class WorkshopTwitterView(View):
+class TwitterView(View):
     def get(self, request):
         form = URLInputForm()
         return render(request, "landing_page/input_form.html", {"form": form})
