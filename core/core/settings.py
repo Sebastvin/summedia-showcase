@@ -22,12 +22,10 @@ else:
     ALLOWED_HOSTS = ["https://showcase-6f9e66e0a337.herokuapp.com/", "127.0.0.1"]
 
 
-
 # Application definition
 
 INSTALLED_APPS = [
     "whitenoise.runserver_nostatic",
-
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -151,4 +149,3 @@ STORAGES = {
 # Don't store the original (un-hashed filename) version of static files, to reduce slug size:
 # https://whitenoise.readthedocs.io/en/latest/django.html#WHITENOISE_KEEP_ONLY_HASHED_FILES
 WHITENOISE_KEEP_ONLY_HASHED_FILES = True
-
