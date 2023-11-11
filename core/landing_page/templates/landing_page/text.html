@@ -3,10 +3,15 @@
 
 {% block body %}
 
-<h1>Text</h1>
+<h1>Article</h1>
 
-{{ text_article }}
-<p>-----------------------</p>
-{{ analyze_sentiment }}
+
+{{ text|safe }}
+</br>
+<p>Time read: <b>{{ time_read }}</b> mins</p>
+</br>
+<p>{{ img_urls }}</p>
+
+
 
 {% endblock %}

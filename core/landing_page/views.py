@@ -1,5 +1,9 @@
 from django.shortcuts import render
-from engineer_demo.fetching_data import get_text_from_article
+from engineer_demo.fetching_data import (
+    get_text_from_article,
+    article_time_read,
+    get_images_from_html,
+)
 from engineer_demo.text import Text
 from engineer_demo.twitter import Twitter
 from django.conf import settings
@@ -26,8 +30,15 @@ class TextView(View):
         if form.is_valid():
             url = form.cleaned_data["url"]
             text_article = get_text_from_article(url)
+
+            time_read = article_time_read(text_article)
+
+            img_urls = get_images_from_html(url)
+
             return render(
-                request, "landing_page/article_text.html", {"text": text_article}
+                request,
+                "landing_page/text.html",
+                {"text": text_article, "time_read": time_read, "img_urls": img_urls},
             )
         return render(request, "landing_page/input_form.html", {"form": form})
 
@@ -47,7 +58,7 @@ class WorkshopArticleView(View):
             analyze_sentiment = text.analyze_sentiment(text_article)
             return render(
                 request,
-                "landing_page/text.html",
+                "landing_page/article.html",
                 {"analyze_sentiment": analyze_sentiment, "text_article": text_article},
             )
 
