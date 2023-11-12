@@ -12,7 +12,7 @@ from django.views.generic import TemplateView
 from django.views import View
 from .forms import URLInputForm
 
-openai.api_key = settings.OPENAI_API_KEY
+API_KEY = settings.OPENAI_API_KEY
 
 
 # Create your views here.
@@ -59,7 +59,7 @@ class ArticleView(View):
         if form.is_valid():
             url = form.cleaned_data["url"]
             text_article = get_text_from_article(url)
-            text = Text()
+            text = Text(api_key=API_KEY)
             summary_article = text.summarize_text(text_article, 200)
             analyze_sentiment = text.analyze_sentiment(text_article)
 
@@ -88,7 +88,7 @@ class TwitterView(View):
         if form.is_valid():
             url = form.cleaned_data["url"]
             text_article = get_text_from_article(url)
-            twitter = Twitter()
+            twitter = Twitter(api_key=API_KEY)
             condense_text_to_tweet = twitter.condense_text_to_tweet(text_article)
 
             new_form = URLInputForm()

@@ -22,7 +22,7 @@ if IS_HEROKU_APP:
         "showcase-6f9e66e0a337.herokuapp.com",
     ]
     OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
-    SECRET_KEY  = os.environ.get("SECRET_KEY")
+    SECRET_KEY = os.environ.get("SECRET_KEY")
 else:
     ALLOWED_HOSTS = ["127.0.0.1"]
 
