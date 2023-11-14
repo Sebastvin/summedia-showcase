@@ -62,7 +62,7 @@ class ArticleView(View):
             text = Text(api_key=API_KEY)
             summary_article = text.summarize_text(text_article, 200)
             analyze_sentiment = text.analyze_sentiment(
-                text_article, model_type="gpt-4-1106-preview"
+                text_article, model_type="gpt-3.5-turbo-1106"
             )
 
             new_form = URLInputForm()
@@ -92,7 +92,7 @@ class TwitterView(View):
             text_article = get_text_from_article(url)
             twitter = Twitter(api_key=API_KEY)
             condense_text_to_tweet = twitter.condense_text_to_tweet(
-                text_article, model_type="gpt-4-1106-preview"
+                text_article, model_type="gpt-3.5-turbo-1106"
             )
 
             new_form = URLInputForm()
