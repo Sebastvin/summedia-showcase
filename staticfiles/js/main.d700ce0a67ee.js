@@ -24,12 +24,10 @@ Author: GrayGrids
         var sticky = header_navbar.offsetTop;
 
         var logo = document.querySelector('.navbar-brand img')
-        if (window.pageYOffset > sticky) {
+        if (window.scrollY > sticky) {
           header_navbar.classList.add("sticky");
-          logo.src = 'static/img/logo.png'
         } else {
           header_navbar.classList.remove("sticky");
-          logo.src = 'static/img/logo.png'
         }
 
         // show or hide the back-top-top button
