@@ -1,27 +1,43 @@
 {% extends 'landing_page/base.html' %}
-
-
 {% block body %}
 <section class="hero-area">
-        <div class="container"><div class="row align-items-center">
-        <div class="col-lg-5 col-md-12 col-12">
-                    <div class="hero-content">
+   <div class="container">
+      <div class="row align-items-center">
+         <div class="col-lg-12 col-md-12 col-12">
+            <div class="hero-content">
+               <h1>Article</h1>
+               {% include "landing_page/includes/input_form.html" %}
+
+                <div class="card mt-3">
+                  <div class="card-body">
+                    <h5 class="card-title">Article summary</h5>
+                    <p class="card-text text-success">
+                       {% if summary_article %}
+                            {{ summary_article }}
+                        {% else %}
+                           Analyze summary appear here...
+                       {% endif %}
+                    </p>
+                  </div>
+                </div>
 
 
+                <div class="card mt-3">
+                  <div class="card-body">
+                    <h5 class="card-title">Analyze article sentiment</h5>
+                    <p class="card-text text-success">
+                       {% if analyze_sentiment %}
+                       {{ analyze_sentiment }}
+                       {% else %}
+                           Analyze sentiment appear here...
+                       {% endif %}
+                    </p>
+                  </div>
+                </div>
 
-<h1>Article</h1>
-{% include "landing_page/includes/input_form.html" %}
-
-{% if text_article %}<p>{{ text_article }}</p>{% endif %}
-
-{% if condense_text_to_tweet %}<p>{{ condense_text_to_tweet }}</p>{% endif %}
-
-{% if summary_article %}<p>{{ summary_article }}</p>{% endif %}
-
-                            </div>
-        </div>
-        </div>
-        </div>
+            </div>
+         </div>
+      </div>
+   </div>
 </section>
-
 {% endblock %}

@@ -69,7 +69,6 @@ class ArticleView(View):
 
             context = {
                 "analyze_sentiment": analyze_sentiment,
-                "text_article": text_article,
                 "summary_article": summary_article,
                 "form": new_form,
             }
