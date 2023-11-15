@@ -918,21 +918,6 @@ ol {
   }
 }
 
-/* Bread Crumbs */
-.breadcrumbs {
-  position: relative;
-  padding-top: 160px;
-  padding-bottom: 120px;
-  z-index: 2;
-  text-align: left;
-  background-color: #081828;
-  background-image: url("../images/bread-bg/banner-bg.svg");
-  background-size: cover;
-  background-position: right;
-  background-repeat: no-repeat;
-  -webkit-box-shadow: 0px 7px 30px rgba(0, 0, 0, 0.075);
-          box-shadow: 0px 7px 30px rgba(0, 0, 0, 0.075);
-}
 
 .breadcrumbs::before {
   position: absolute;
