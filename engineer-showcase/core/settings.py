@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "landing_page",
-    "engineer_demo",
+    "summedia",
 ]
 
 MIDDLEWARE = [

@@ -1,11 +1,11 @@
 from django.shortcuts import render
-from engineer_demo.fetching_data import (
+from summedia.fetching_data import (
     get_text_from_article,
     article_time_read,
     get_images_from_html,
 )
-from engineer_demo.text import Text
-from engineer_demo.twitter import Twitter
+from summedia.text import Text
+from summedia.social_media import SocialMedia
 from django.conf import settings
 import openai
 from django.views.generic import TemplateView
@@ -89,7 +89,7 @@ class TwitterView(View):
         if form.is_valid():
             url = form.cleaned_data["url"]
             text_article = get_text_from_article(url)
-            twitter = Twitter(api_key=API_KEY)
+            twitter = SocialMedia(api_key=API_KEY)
             condense_text_to_tweet = twitter.condense_text_to_tweet(
                 text_article, model_type="gpt-3.5-turbo-1106"
             )

@@ -1,5 +1,0 @@
-django
-engineer-demo @ git+https://github.com/Sebastvin/engineer-demo.git
-gunicorn
-whitenoise
-dj-database-url

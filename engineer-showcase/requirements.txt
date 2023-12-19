@@ -1,0 +1,5 @@
+django
+summedia @ git+https://github.com/Sebastvin/summedia
+gunicorn
+whitenoise
+dj-database-url
