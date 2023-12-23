@@ -10,7 +10,7 @@ from django.conf import settings
 import openai
 from django.views.generic import TemplateView
 from django.views import View
-from .forms import URLInputForm
+from .forms import URLInputForm, TextInputForm
 
 API_KEY = settings.OPENAI_API_KEY
 
@@ -22,27 +22,34 @@ class IndexView(TemplateView):
 
 class TextView(View):
     def get(self, request):
-        form = URLInputForm()
+        form = TextInputForm()
         return render(request, "landing_page/text.html", {"form": form})
 
     def post(self, request):
-        form = URLInputForm(request.POST)
+        form = TextInputForm(request.POST)
         if form.is_valid():
-            url = form.cleaned_data["url"]
-            text_article = get_text_from_article(url)
-            time_read = article_time_read(text_article)
-            img_urls = get_images_from_html(url)
+            url = form.cleaned_data["text"]
+
+            text = Text(api_key=API_KEY)
+            summary_article = text.summarize_text(url, 200)
+            analyze_sentiment = text.analyze_sentiment(url)
+            to_bullet_list = text.to_bullet_list(url)
+            translate_text = text.translate_text(url, language_to_translate="pl")
+            adjust_text_complexity = text.adjust_text_complexity(url)
+            tag_and_categorize_text = text.tag_and_categorize_text(url)
 
             # Create a new instance of the form for rendering
-            new_form = URLInputForm()
+            new_form = TextInputForm()
 
             context = {
-                "text": text_article,
-                "time_read": time_read,
-                "img_urls": img_urls,
+                "summary_article": summary_article,
+                "analyze_sentiment": analyze_sentiment,
+                "to_bullet_list": to_bullet_list,
+                "translate_text": translate_text,
+                "adjust_text_complexity": adjust_text_complexity,
+                "tag_and_categorize_text": tag_and_categorize_text,
                 "form": new_form,
             }
-
             return render(request, "landing_page/text.html", context)
         else:
             return render(request, "landing_page/text.html", {"form": form})
