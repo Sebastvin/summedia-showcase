@@ -1,0 +1,33 @@
+{% extends 'landing_page/base.html' %}
+{% block body %}
+<section class="hero-area">
+   <div class="container">
+      <div class="row align-items-center">
+         <div class="col-lg-12 col-md-12 col-12">
+            <div class="hero-content">
+
+
+               <h1>Facebook</h1>
+               {% include "landing_page/includes/input_form.html" %}
+
+            
+                <div class="card mt-3">
+                  <div class="card-body">
+                    <h5 class="card-title">Facebook post</h5>
+                    <p class="card-text text-success">
+                        {% if post_to_facebook %}
+                        {{ post_to_facebook }}
+                        {% else %}
+                            Your output appear here...
+                        {% endif %}
+                    </p>
+                  </div>
+                </div>
+
+
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+{% endblock %}

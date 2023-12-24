@@ -111,3 +111,32 @@ class TwitterView(View):
         else:
             # In case the form is not valid, re-render the page with the form containing validation errors
             return render(request, "landing_page/twitter.html", {"form": form})
+
+
+class FacebookView(View):
+    def get(self, request):
+        form = URLInputForm()
+        return render(request, "landing_page/facebook.html", {"form": form})
+
+    def post(self, request):
+        form = URLInputForm(request.POST)
+        if form.is_valid():
+            url = form.cleaned_data["url"]
+            text_article = get_text_from_article(url)
+            fb = SocialMedia(api_key=API_KEY)
+            post_to_facebook = fb.post_to_facebook(text_article, model_type="gpt-3.5-turbo-1106")
+
+            new_form = URLInputForm()
+
+            context = {
+                "form": new_form,  # Include the form in the context
+                "post_to_facebook": post_to_facebook,
+            }
+            return render(request, "landing_page/facebook.html", context)
+        else:
+            # In case the form is not valid, re-render the page with the form containing validation errors
+            return render(request, "landing_page/facebook.html", {"form": form})
+
+class SocialMediaView(View):
+    def get(self, request):
+        return render(request, "landing_page/social_media.html")
