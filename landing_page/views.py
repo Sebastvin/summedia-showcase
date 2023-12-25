@@ -124,7 +124,9 @@ class FacebookView(View):
             url = form.cleaned_data["url"]
             text_article = get_text_from_article(url)
             fb = SocialMedia(api_key=API_KEY)
-            post_to_facebook = fb.post_to_facebook(text_article, model_type="gpt-3.5-turbo-1106")
+            post_to_facebook = fb.post_to_facebook(
+                text_article, model_type="gpt-3.5-turbo-1106"
+            )
 
             new_form = URLInputForm()
 
@@ -136,6 +138,7 @@ class FacebookView(View):
         else:
             # In case the form is not valid, re-render the page with the form containing validation errors
             return render(request, "landing_page/facebook.html", {"form": form})
+
 
 class SocialMediaView(View):
     def get(self, request):

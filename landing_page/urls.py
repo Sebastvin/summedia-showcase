@@ -1,5 +1,12 @@
 from django.urls import path
-from landing_page.views import IndexView, TextView, ArticleView, TwitterView, FacebookView, SocialMediaView
+from landing_page.views import (
+    IndexView,
+    TextView,
+    ArticleView,
+    TwitterView,
+    FacebookView,
+    SocialMediaView,
+)
 
 urlpatterns = [
     path("", IndexView.as_view(), name="home"),
