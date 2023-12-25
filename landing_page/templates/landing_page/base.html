@@ -3,10 +3,10 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+  <head>
     <meta charset="UTF-8">
     <title>SumMedia</title>
-     <link rel="icon" type="image/x-icon" href="{% static 'img/logo.png' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'img/logo.png' %}">
 
     <!-- Font Awesome -->
     <link
@@ -31,32 +31,32 @@
     <link rel="stylesheet" href="{% static 'css/tiny-slider.css' %}" />
     <link rel="stylesheet" href="{% static 'css/glightbox.min.css' %}" />
     <link rel="stylesheet" href="{% static 'css/main.css' %}" />
-</head>
+  </head>
 
 
-{% include 'landing_page/includes/navbar.html' %}
-
-
-
-<body>
-{% block body %}
-
-
-{% endblock %}
+  {% include 'landing_page/includes/navbar.html' %}
 
 
 
+  <body>
+    {% block body %}
 
 
-<script
-  type="text/javascript"
-  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"
-></script>
-<script src="{% static 'js/wow.min.js' %}"></script>
-<script src="{% static 'js/tiny-slider.js' %}"></script>
-<script src="{% static 'js/glightbox.min.js' %}"></script>
-<script src="{% static 'js/count-up.min.js' %}"></script>
-<script src="{% static 'js/main.js' %}"></script>
-</body>
+    {% endblock %}
 
-{% include 'landing_page/includes/footer.html' %}
+
+
+
+
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"
+    ></script>
+    <script src="{% static 'js/wow.min.js' %}"></script>
+    <script src="{% static 'js/tiny-slider.js' %}"></script>
+    <script src="{% static 'js/glightbox.min.js' %}"></script>
+    <script src="{% static 'js/count-up.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+  </body>
+
+  {% include 'landing_page/includes/footer.html' %}

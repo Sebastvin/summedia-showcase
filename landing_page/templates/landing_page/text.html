@@ -1,97 +1,97 @@
 {% extends 'landing_page/base.html' %}
 {% block body %}
-<section class="hero-area">
-   <div class="container">
-      <div class="row align-items-center">
-         <div class="col-lg-12 col-md-12 col-12">
-            <div class="hero-content">
-               <h1>Text</h1>
-               {% include "landing_page/includes/input_form.html" %}
+    <section class="hero-area">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12 col-md-12 col-12">
+                    <div class="hero-content">
+                        <h1>Text</h1>
+                        {% include "landing_page/includes/input_form.html" %}
 
-               <div class="card mt-3">
-                  <div class="card-body">
-                    <h5 class="card-title">Text summary</h5>
-                    <p class="card-text text-success">
-                        {% if summary_article %}
-                            {{ summary_article|safe }}
-                        {% else %}
-                            Your output appear here...
-                        {% endif %}
-                    </p>
-                  </div>
-                </div>
-            
-
-               <div class="card mt-3">
-                  <div class="card-body">
-                    <h5 class="card-title">
-                        Analyze sentiment
-                    </h5>
-                        {% if analyze_sentiment %}
-                          <p class="text-success">{{ analyze_sentiment }}</p>
-                        {% else %}
-                          <p class="text-success">Your output appear here...</p>
-                        {% endif %}
-                  </div>
-               </div>
-            
+                        <div class="card mt-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Text summary</h5>
+                                <p class="card-text text-success">
+                                    {% if summary_article %}
+                                        {{ summary_article|safe }}
+                                    {% else %}
+                                        Your output appear here...
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
 
 
-                <div class="card mt-3">
-                    <div class="card-body">
-                    <h5 class="card-title">
-                        Bullet list
-                    </h5>
-                        {% if to_bullet_list %}
-                            <p class="text-success">{{ to_bullet_list }}</p>
-                        {% else %}
-                          <p class="text-success">Your output appear here...</p>
-                        {% endif %}
-                    </div>
-                </div>
-            
-            
-                <div class="card mt-3">
-                    <div class="card-body">
-                    <h5 class="card-title">
-                        Translate text
-                    </h5>
-                        {% if translate_text %}
-                            <p class="text-success">{{ translate_text }}</p>
-                        {% else %}
-                          <p class="text-success">Your output appear here...</p>
-                        {% endif %}
-                    </div>
-                </div>
-            
-                <div class="card mt-3">
-                    <div class="card-body">
-                    <h5 class="card-title">
-                        Adjust text complexity
-                    </h5>
-                        {% if adjust_text_complexity %}
-                            <p class="text-success">{{ adjust_text_complexity }}</p>
-                        {% else %}
-                          <p class="text-success">Your output appear here...</p>
-                        {% endif %}
-                    </div>
-                </div>
-            
-                <div class="card mt-3">
-                    <div class="card-body">
-                    <h5 class="card-title">
-                        Tag and categorize
-                    </h5>
-                        {% if tag_and_categorize_text %}
-                            <p class="text-success">{{ tag_and_categorize_text }}</p>
-                        {% else %}
-                          <p class="text-success">Your output appear here...</p>
-                        {% endif %}
+                        <div class="card mt-3">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    Analyze sentiment
+                                </h5>
+                                {% if analyze_sentiment %}
+                                    <p class="text-success">{{ analyze_sentiment }}</p>
+                                {% else %}
+                                    <p class="text-success">Your output appear here...</p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+
+
+                        <div class="card mt-3">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    Bullet list
+                                </h5>
+                                {% if to_bullet_list %}
+                                    <p class="text-success">{{ to_bullet_list }}</p>
+                                {% else %}
+                                    <p class="text-success">Your output appear here...</p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+
+                        <div class="card mt-3">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    Translate text
+                                </h5>
+                                {% if translate_text %}
+                                    <p class="text-success">{{ translate_text }}</p>
+                                {% else %}
+                                    <p class="text-success">Your output appear here...</p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="card mt-3">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    Adjust text complexity
+                                </h5>
+                                {% if adjust_text_complexity %}
+                                    <p class="text-success">{{ adjust_text_complexity }}</p>
+                                {% else %}
+                                    <p class="text-success">Your output appear here...</p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="card mt-3">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    Tag and categorize
+                                </h5>
+                                {% if tag_and_categorize_text %}
+                                    <p class="text-success">{{ tag_and_categorize_text }}</p>
+                                {% else %}
+                                    <p class="text-success">Your output appear here...</p>
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-         </div>
-      </div>
-   </div>
-</section>
+        </div>
+    </section>
 {% endblock %}

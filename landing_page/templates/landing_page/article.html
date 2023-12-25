@@ -1,92 +1,92 @@
 {% extends 'landing_page/base.html' %}
 {% block body %}
-<section class="hero-area">
-   <div class="container">
-      <div class="row align-items-center">
-         <div class="col-lg-12 col-md-12 col-12">
-            <div class="hero-content">
-               <h1>Article</h1>
-               {% include "landing_page/includes/input_form.html" %}
-            
-                <div class="card mt-3">
-                  <div class="card-body">
-                    <h5 class="card-title">Article text</h5>
-                    <p class="card-text text-success">
-                        {% if text_article %}
-                            {{ text_article|safe }}
-                        {% else %}
-                            Your output appear here...
-                        {% endif %}
-                    </p>
-                  </div>
-                </div>
-            
+    <section class="hero-area">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12 col-md-12 col-12">
+                    <div class="hero-content">
+                        <h1>Article</h1>
+                        {% include "landing_page/includes/input_form.html" %}
 
-               <div class="card mt-3">
-                  <div class="card-body">
-                    <h5 class="card-title">
-                        Article reading time
-                    </h5>
-                        {% if time_read %}
-                          <p class="text-success">Time read: <b>{{ time_read }}</b> min</p>
-                        {% else %}
-                          <p class="text-success">Your output appear here...</p>
-                        {% endif %}
-                  </div>
-               </div>
-            
+                        <div class="card mt-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Article text</h5>
+                                <p class="card-text text-success">
+                                    {% if text_article %}
+                                        {{ text_article|safe }}
+                                    {% else %}
+                                        Your output appear here...
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
 
 
-                <div class="card mt-3">
-                    <div class="card-body">
-                    <h5 class="card-title">
-                        Images from website:
-                    </h5>
-                        {% if img_urls %}
-                           {% for url in img_urls %}
-                               <img
-                                  src="{{ url }}"
-                                  class="img-thumbnail"
-                                  alt="Hollywood Sign on The Hill"
-                                  width="150px;"
-                                />
-                           {% endfor %}
-                        {% else %}
-                          <p class="text-success">Images appear here...</p>
-                        {% endif %}
+                        <div class="card mt-3">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    Article reading time
+                                </h5>
+                                {% if time_read %}
+                                    <p class="text-success">Time read: <b>{{ time_read }}</b> min</p>
+                                {% else %}
+                                    <p class="text-success">Your output appear here...</p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+
+
+                        <div class="card mt-3">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    Images from website:
+                                </h5>
+                                {% if img_urls %}
+                                    {% for url in img_urls %}
+                                        <img
+                                            src="{{ url }}"
+                                            class="img-thumbnail"
+                                            alt="Hollywood Sign on The Hill"
+                                            width="150px;"
+                                        />
+                                    {% endfor %}
+                                {% else %}
+                                    <p class="text-success">Images appear here...</p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="card mt-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Article summary</h5>
+                                <p class="card-text text-success">
+                                    {% if summary_article %}
+                                        {{ summary_article }}
+                                    {% else %}
+                                        Analyze summary appear here...
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+
+
+                        <div class="card mt-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Analyze article sentiment</h5>
+                                <p class="card-text text-success">
+                                    {% if analyze_sentiment %}
+                                        {{ analyze_sentiment }}
+                                    {% else %}
+                                        Analyze sentiment appear here...
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-
-                <div class="card mt-3">
-                  <div class="card-body">
-                    <h5 class="card-title">Article summary</h5>
-                    <p class="card-text text-success">
-                       {% if summary_article %}
-                            {{ summary_article }}
-                        {% else %}
-                           Analyze summary appear here...
-                       {% endif %}
-                    </p>
-                  </div>
-                </div>
-
-
-                <div class="card mt-3">
-                  <div class="card-body">
-                    <h5 class="card-title">Analyze article sentiment</h5>
-                    <p class="card-text text-success">
-                       {% if analyze_sentiment %}
-                       {{ analyze_sentiment }}
-                       {% else %}
-                           Analyze sentiment appear here...
-                       {% endif %}
-                    </p>
-                  </div>
-                </div>
-
             </div>
-         </div>
-      </div>
-   </div>
-</section>
+        </div>
+    </section>
 {% endblock %}
