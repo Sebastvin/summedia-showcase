@@ -66,6 +66,9 @@ class ArticleView(View):
         if form.is_valid():
             url = form.cleaned_data["url"]
             text_article = get_text_from_article(url)
+            time_read = article_time_read(text_article)
+            img_urls = get_images_from_html(url)
+
             text = Text(api_key=API_KEY)
             summary_article = text.summarize_text(text_article, 200)
             analyze_sentiment = text.analyze_sentiment(
@@ -75,6 +78,9 @@ class ArticleView(View):
             new_form = URLInputForm()
 
             context = {
+                "text_article": text_article,
+                "time_read": time_read,
+                "img_urls": img_urls,
                 "analyze_sentiment": analyze_sentiment,
                 "summary_article": summary_article,
                 "form": new_form,
