@@ -7,3 +7,7 @@ class URLInputForm(forms.Form):
 
 class TextInputForm(forms.Form):
     text = forms.CharField(label="Enter text")
+
+
+class NumericInputForm(forms.Form):
+    number = forms.IntegerField(label="Enter words number")

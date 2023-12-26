@@ -6,7 +6,12 @@
                 <div class="col-lg-12 col-md-12 col-12">
                     <div class="hero-content">
                         <h1>Text</h1>
-                        {% include "landing_page/includes/input_form.html" %}
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ text_form.as_p }}
+                            {{ numeric_form.as_p }}
+                            <button type="submit" class="btn btn-success">Fetch Data</button>
+                        </form>
 
                         <div class="card mt-3">
                             <div class="card-body">

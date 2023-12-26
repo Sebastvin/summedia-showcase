@@ -10,7 +10,7 @@ from django.conf import settings
 import openai
 from django.views.generic import TemplateView
 from django.views import View
-from .forms import URLInputForm, TextInputForm
+from .forms import URLInputForm, TextInputForm, NumericInputForm
 
 API_KEY = settings.OPENAI_API_KEY
 
@@ -22,16 +22,20 @@ class IndexView(TemplateView):
 
 class TextView(View):
     def get(self, request):
-        form = TextInputForm()
-        return render(request, "landing_page/text.html", {"form": form})
+        text_form = TextInputForm()
+        numeric_form = NumericInputForm()
+        return render(request, "landing_page/text.html", {"text_form": text_form, "numeric_form": numeric_form})
 
     def post(self, request):
-        form = TextInputForm(request.POST)
-        if form.is_valid():
-            url = form.cleaned_data["text"]
+        text_form = TextInputForm(request.POST)
+        numeric_form = NumericInputForm(request.POST)
+
+        if text_form.is_valid() and numeric_form.is_valid():
+            url = text_form.cleaned_data["text"]
+            numeric_form = numeric_form.cleaned_data["number"]
 
             text = Text(api_key=API_KEY)
-            summary_article = text.summarize_text(url, 200)
+            summary_article = text.summarize_text(url, numeric_form)
             analyze_sentiment = text.analyze_sentiment(url)
             to_bullet_list = text.to_bullet_list(url)
             translate_text = text.translate_text(url, language_to_translate="pl")
@@ -39,7 +43,8 @@ class TextView(View):
             tag_and_categorize_text = text.tag_and_categorize_text(url)
 
             # Create a new instance of the form for rendering
-            new_form = TextInputForm()
+            text_form = TextInputForm()
+            numeric_form = NumericInputForm()
 
             context = {
                 "summary_article": summary_article,
@@ -48,11 +53,12 @@ class TextView(View):
                 "translate_text": translate_text,
                 "adjust_text_complexity": adjust_text_complexity,
                 "tag_and_categorize_text": tag_and_categorize_text,
-                "form": new_form,
+                "text_form": text_form,
+                "numeric_form": numeric_form
             }
             return render(request, "landing_page/text.html", context)
         else:
-            return render(request, "landing_page/text.html", {"form": form})
+            return render(request, "landing_page/text.html", {"text_form": text_form, "numeric_form": numeric_form})
 
 
 class ArticleView(View):
