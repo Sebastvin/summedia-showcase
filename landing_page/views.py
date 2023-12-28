@@ -24,7 +24,11 @@ class TextView(View):
     def get(self, request):
         text_form = TextInputForm()
         numeric_form = NumericInputForm()
-        return render(request, "landing_page/text.html", {"text_form": text_form, "numeric_form": numeric_form})
+        return render(
+            request,
+            "landing_page/text.html",
+            {"text_form": text_form, "numeric_form": numeric_form},
+        )
 
     def post(self, request):
         text_form = TextInputForm(request.POST)
@@ -54,11 +58,15 @@ class TextView(View):
                 "adjust_text_complexity": adjust_text_complexity,
                 "tag_and_categorize_text": tag_and_categorize_text,
                 "text_form": text_form,
-                "numeric_form": numeric_form
+                "numeric_form": numeric_form,
             }
             return render(request, "landing_page/text.html", context)
         else:
-            return render(request, "landing_page/text.html", {"text_form": text_form, "numeric_form": numeric_form})
+            return render(
+                request,
+                "landing_page/text.html",
+                {"text_form": text_form, "numeric_form": numeric_form},
+            )
 
 
 class ArticleView(View):
