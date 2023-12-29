@@ -38,9 +38,12 @@
 
 
 
-  <body>
-    {% block body %}
-    {% endblock %}
+<body>
+     <div id="page-container">
+        {% block body %}
+        {% endblock %}
+       {% include 'landing_page/includes/footer.html' %}
+     </div>
 
 
     <script src="{% static 'js/wow.min.js' %}"></script>
@@ -49,6 +52,4 @@
     <script src="{% static 'js/count-up.min.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
-  </body>
-
-  {% include 'landing_page/includes/footer.html' %}
+</body>

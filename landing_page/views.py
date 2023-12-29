@@ -7,7 +7,6 @@ from summedia.fetching_data import (
 from summedia.text import Text
 from summedia.social_media import SocialMedia
 from django.conf import settings
-import openai
 from django.views.generic import TemplateView
 from django.views import View
 from .forms import URLInputForm, TextInputForm, NumericInputForm
