@@ -165,7 +165,42 @@ class SocialMediaView(View):
 
 class SummaryTextView(View):
     def get(self, request):
-        return render(request, "landing_page/summary_text.html")
+        text_form = TextInputForm()
+        numeric_form = NumericInputForm()
+        return render(
+            request,
+            "landing_page/summary_text.html",
+            {"text_form": text_form, "numeric_form": numeric_form},
+        )
+
+    def post(self, request):
+        text_form = TextInputForm(request.POST)
+        numeric_form = NumericInputForm(request.POST)
+
+        if text_form.is_valid() and numeric_form.is_valid():
+            text = text_form.cleaned_data["text"]
+            amount_words = numeric_form.cleaned_data["number"]
+
+            txt = Text(api_key=API_KEY)
+            summary_article = txt.summarize_text(text, amount_words)
+
+            # Create a new instance of the form for rendering
+            text_form = TextInputForm()
+            numeric_form = NumericInputForm()
+
+            context = {
+                "summary_article": summary_article,
+                "text_form": text_form,
+                "numeric_form": numeric_form,
+            }
+
+            return render(request, "landing_page/summary_text.html", context)
+        else:
+            return render(
+                request,
+                "landing_page/summary_text.html",
+                {"text_form": text_form, "numeric_form": numeric_form},
+            )
 
 
 class AnalyzeSentimentView(View):

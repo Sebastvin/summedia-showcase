@@ -1,1 +1,42 @@
 {% extends 'landing_page/base.html' %}
+{% block body %}
+    <section class="hero-area">
+        <div class="container">
+            <div class="hero-content">
+                <form method="post">
+                    {% csrf_token %}
+
+                    <p>Enter text</p>
+                    {% for field in text_form %}
+                        {{ field.errors }}
+                        {{ field }}
+                    {% endfor %}
+
+
+                    <p>Enter words number</p>
+                    {% for field in numeric_form %}
+                        {{ field.errors }}
+                        {{ field }}
+                    {% endfor %}
+
+                    <button type="submit" class="btn btn-success">Fetch Data</button>
+                </form>
+
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Summary text</h5>
+                        <p class="card-text text-success">
+                            {% if summary_article %}
+                                {{ summary_article|safe }}
+                            {% else %}
+                                Your output appear here...
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+

@@ -33,6 +33,11 @@ html {
   scroll-behavior: smooth;
 }
 
+.full-width-textarea {
+    width: 100%;
+    box-sizing: border-box; /* This ensures padding doesn't add to the total width */
+}
+
 body {
   font-family: "DM Sans", sans-serif;
   font-weight: normal;

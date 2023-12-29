@@ -6,7 +6,10 @@ class URLInputForm(forms.Form):
 
 
 class TextInputForm(forms.Form):
-    text = forms.CharField(label="Enter text")
+    text = forms.CharField(
+        label="Enter text",
+        widget=forms.Textarea(attrs={"class": "full-width-textarea"}),
+    )
 
 
 class NumericInputForm(forms.Form):
