@@ -10,6 +10,7 @@ from django.conf import settings
 from django.views.generic import TemplateView
 from django.views import View
 from .forms import URLInputForm, TextInputForm, NumericInputForm
+from .base_view import BaseTextView
 
 API_KEY = settings.OPENAI_API_KEY
 
@@ -163,66 +164,99 @@ class SocialMediaView(View):
         return render(request, "landing_page/social_media.html")
 
 
-class SummaryTextView(View):
-    def get(self, request):
-        text_form = TextInputForm()
-        numeric_form = NumericInputForm()
-        return render(
-            request,
-            "landing_page/summary_text.html",
-            {"text_form": text_form, "numeric_form": numeric_form},
-        )
+class SummaryTextView(BaseTextView):
+    form_class = TextInputForm
+    template_name = "landing_page/summary_text.html"
+    extra_context = {"numeric_form": NumericInputForm}
 
     def post(self, request):
-        text_form = TextInputForm(request.POST)
-        numeric_form = NumericInputForm(request.POST)
+        text_form = self.form_class(request.POST)
+        numeric_form = self.extra_context["numeric_form"](request.POST)
 
         if text_form.is_valid() and numeric_form.is_valid():
-            text = text_form.cleaned_data["text"]
-            amount_words = numeric_form.cleaned_data["number"]
-
-            txt = Text(api_key=API_KEY)
-            summary_article = txt.summarize_text(text, amount_words)
-
-            # Create a new instance of the form for rendering
-            text_form = TextInputForm()
-            numeric_form = NumericInputForm()
-
-            context = {
-                "summary_article": summary_article,
-                "text_form": text_form,
-                "numeric_form": numeric_form,
-            }
-
-            return render(request, "landing_page/summary_text.html", context)
+            return self.form_valid(text_form, numeric_form)
         else:
-            return render(
-                request,
-                "landing_page/summary_text.html",
-                {"text_form": text_form, "numeric_form": numeric_form},
-            )
+            return self.form_invalid(text_form)
+
+    def form_valid(self, text_form, numeric_form):
+        text = text_form.cleaned_data["text"]
+        amount_words = numeric_form.cleaned_data["number"]
+        txt = Text(api_key=API_KEY)
+        summary_article = txt.summarize_text(text, amount_words)
+        context = {
+            "output": summary_article,
+            "text_form": TextInputForm(),
+            "numeric_form": NumericInputForm(),
+        }
+
+        return render(self.request, self.template_name, context)
 
 
-class AnalyzeSentimentView(View):
-    def get(self, request):
-        return render(request, "landing_page/analyze_sentiment.html")
+class AnalyzeSentimentView(BaseTextView):
+    form_class = TextInputForm
+    template_name = "landing_page/text_output.html"
+    title = "Analyze text sentiment"
+
+    def form_valid(self, text_form):
+        text = text_form.cleaned_data["text"]
+        txt = Text(api_key=API_KEY)
+        output = txt.analyze_sentiment(text)
+        context = self.get_context_data(output=output)
+
+        return render(self.request, self.template_name, context)
 
 
-class BulletListView(View):
-    def get(self, request):
-        return render(request, "landing_page/bullet_list.html")
+class BulletListView(BaseTextView):
+    form_class = TextInputForm
+    template_name = "landing_page/text_output.html"
+    title = "Bullet list from text"
+
+    def form_valid(self, text_form):
+        text = text_form.cleaned_data["text"]
+        txt = Text(api_key=API_KEY)
+        to_bullet_list = txt.to_bullet_list(text)
+        context = self.get_context_data(output=to_bullet_list)
+
+        return render(self.request, self.template_name, context)
 
 
-class TranslateTextView(View):
-    def get(self, request):
-        return render(request, "landing_page/translate_text.html")
+class TranslateTextView(BaseTextView):
+    form_class = TextInputForm
+    template_name = "landing_page/text_output.html"
+    title = "Translate text"
+
+    def form_valid(self, text_form):
+        text = text_form.cleaned_data["text"]
+        txt = Text(api_key=API_KEY)
+        translate_text = txt.translate_text(text, language_to_translate="pl")
+        context = self.get_context_data(output=translate_text)
+
+        return render(self.request, self.template_name, context)
 
 
-class AdjustTextComplexityView(View):
-    def get(self, request):
-        return render(request, "landing_page/adjust_text_complexity.html")
+class AdjustTextComplexityView(BaseTextView):
+    form_class = TextInputForm
+    template_name = "landing_page/text_output.html"
+    title = "Adjustment text complexity"
+
+    def form_valid(self, text_form):
+        text = text_form.cleaned_data["text"]
+        txt = Text(api_key=API_KEY)
+        adjust_text_complexity = txt.adjust_text_complexity(text)
+        context = self.get_context_data(output=adjust_text_complexity)
+
+        return render(self.request, self.template_name, context)
 
 
-class TagAndCategorizeView(View):
-    def get(self, request):
-        return render(request, "landing_page/tag_and_categorize.html")
+class TagAndCategorizeView(BaseTextView):
+    form_class = TextInputForm
+    template_name = "landing_page/text_output.html"
+    title = "Tag and categorize text"
+
+    def form_valid(self, text_form):
+        text = text_form.cleaned_data["text"]
+        txt = Text(api_key=API_KEY)
+        tag_and_categorize_text = txt.tag_and_categorize_text(text)
+        context = self.get_context_data(output=tag_and_categorize_text)
+
+        return render(self.request, self.template_name, context)
