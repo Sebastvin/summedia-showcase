@@ -65,7 +65,7 @@ html {
 
 .full-width-textarea {
     width: 100%;
-    box-sizing: border-box; /* This ensures padding doesn't add to the total width */
+    box-sizing: border-box;
 }
 
 body {

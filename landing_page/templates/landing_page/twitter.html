@@ -11,11 +11,14 @@
                         {% include "landing_page/includes/input_form.html" %}
 
 
+                        <div id="loading">
+                            <h3 class="loader-text">Fetching data<span id="loader" class="loader"></span></h3>
+                        </div>
 
                         <div class="card mt-3">
                             <div class="card-body">
                                 <h5 class="card-title">Condensed tweet/X's</h5>
-                                <p class="card-text text-success">
+                                <p class="card-text text-black">
                                     {% if condense_text_to_tweet %}
                                         {{ condense_text_to_tweet }}
                                     {% else %}
@@ -24,11 +27,17 @@
                                 </p>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('fetch-data').addEventListener('click', function() {
+                document.getElementById('loading').style.display = 'block';
+            });
+        });
+    </script>
 {% endblock %}
