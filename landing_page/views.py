@@ -15,7 +15,6 @@ from .forms import URLInputForm, TextInputForm, NumericInputForm
 API_KEY = settings.OPENAI_API_KEY
 
 
-# Create your views here.
 class IndexView(TemplateView):
     template_name = "landing_page/home.html"
 
@@ -163,3 +162,27 @@ class FacebookView(View):
 class SocialMediaView(View):
     def get(self, request):
         return render(request, "landing_page/social_media.html")
+
+
+class SummaryTextView(View):
+    pass
+
+
+class AnalyzeSentimentView(View):
+    pass
+
+
+class BulletListView(View):
+    pass
+
+
+class TranslateTextView(View):
+    pass
+
+
+class AdjustTextComplexityView(View):
+    pass
+
+
+class TagAndCategorizeView(View):
+    pass
