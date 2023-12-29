@@ -24,7 +24,7 @@ if IS_HEROKU_APP:
     OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
     SECRET_KEY = os.environ.get("SECRET_KEY")
 else:
-    ALLOWED_HOSTS = ["127.0.0.1"]
+    ALLOWED_HOSTS = ["*"]
 
 
 # Application definition

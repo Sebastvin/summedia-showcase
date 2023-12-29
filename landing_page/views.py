@@ -165,24 +165,30 @@ class SocialMediaView(View):
 
 
 class SummaryTextView(View):
-    pass
+    def get(self, request):
+        return render(request, "landing_page/summary_text.html")
 
 
 class AnalyzeSentimentView(View):
-    pass
+    def get(self, request):
+        return render(request, "landing_page/analyze_sentiment.html")
 
 
 class BulletListView(View):
-    pass
+    def get(self, request):
+        return render(request, "landing_page/bullet_list.html")
 
 
 class TranslateTextView(View):
-    pass
+    def get(self, request):
+        return render(request, "landing_page/translate_text.html")
 
 
 class AdjustTextComplexityView(View):
-    pass
+    def get(self, request):
+        return render(request, "landing_page/adjust_text_complexity.html")
 
 
 class TagAndCategorizeView(View):
-    pass
+    def get(self, request):
+        return render(request, "landing_page/tag_and_categorize.html")

@@ -7,6 +7,7 @@ db.sqlite3
 media
 ../.idea
 ../.idea/
+.idea/
 
 # Backup files #
 *.bak
