@@ -41,6 +41,10 @@ body {
   overflow-x: hidden;
   font-size: 15px;
   background-color: #2ed06e;
+
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 p {
@@ -4833,20 +4837,9 @@ blockquote span {
 ========================================*/
 .footer {
   background-color: #081828;
-  position: absolute;
-  padding-bottom: 0;
-  bottom: 0;
-  width: 100%;
+  margin-top: auto;
 }
 
-#page-container {
-  position: relative;
-  min-height: 100vh;
-}
-
-#content-wrap {
-  padding-bottom: 3.5rem;    /* Footer height */
-}
 
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
