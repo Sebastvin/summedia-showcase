@@ -1,16 +1,14 @@
-from django.shortcuts import render
-from summedia.fetching_data import (
-    get_text_from_article,
-    article_time_read,
-    get_images_from_html,
-)
-from summedia.text import Text
-from summedia.social_media import SocialMedia
 from django.conf import settings
-from django.views.generic import TemplateView
+from django.shortcuts import render
 from django.views import View
-from .forms import URLInputForm, TextInputForm, NumericInputForm
+from django.views.generic import TemplateView
+from summedia.fetching_data import (article_time_read, get_images_from_html,
+                                    get_text_from_article)
+from summedia.social_media import SocialMedia
+from summedia.text import Text
+
 from .base_view import BaseTextView
+from .forms import NumericInputForm, TextInputForm, URLInputForm
 
 API_KEY = settings.OPENAI_API_KEY
 
@@ -166,8 +164,9 @@ class SocialMediaView(View):
 
 class SummaryTextView(BaseTextView):
     form_class = TextInputForm
-    template_name = "landing_page/summary_text.html"
+    template_name = "landing_page/text_output.html"
     extra_context = {"numeric_form": NumericInputForm}
+    title = "Summary Text"
 
     def post(self, request):
         text_form = self.form_class(request.POST)
@@ -176,7 +175,7 @@ class SummaryTextView(BaseTextView):
         if text_form.is_valid() and numeric_form.is_valid():
             return self.form_valid(text_form, numeric_form)
         else:
-            return self.form_invalid(text_form)
+            return self.form_invalid(text_form, numeric_form)
 
     def form_valid(self, text_form, numeric_form):
         text = text_form.cleaned_data["text"]
@@ -187,6 +186,7 @@ class SummaryTextView(BaseTextView):
             "output": summary_article,
             "text_form": TextInputForm(),
             "numeric_form": NumericInputForm(),
+            "title": self.title,
         }
 
         return render(self.request, self.template_name, context)

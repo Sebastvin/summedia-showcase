@@ -4,8 +4,9 @@ try:
 except ImportError:
     pass
 
-from pathlib import Path
 import os
+from pathlib import Path
+
 import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent

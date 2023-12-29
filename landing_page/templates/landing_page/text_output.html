@@ -11,6 +11,15 @@
                         {{ field.errors }}
                         {{ field }}
                     {% endfor %}
+
+                    {% if numeric_form %}
+                        <p>Enter words number</p>
+                        {% for field in numeric_form %}
+                            {{ field.errors }}
+                            {{ field }}
+                        {% endfor %}
+                    {% endif %}
+
                     <button id="fetch-data" type="submit" class="btn btn-success" >Fetch Data</button>
                 </form>
 
@@ -25,9 +34,9 @@
                             {{ title }}
                         </h5>
                         {% if output %}
-                            <p class="text-success">{{ output }}</p>
+                            <p class="text-black">{{ output }}</p>
                         {% else %}
-                            <p class="text-success">Your output appear here...</p>
+                            <p class="text-black">Your output appear here...</p>
                         {% endif %}
                     </div>
                 </div>
