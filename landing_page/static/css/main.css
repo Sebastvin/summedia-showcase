@@ -11,6 +11,10 @@
   background: linear-gradient(150deg, #fcdf8a, #f38381 100%);
 }
 
+.social-gradient{
+  background: linear-gradient(150deg, #17ead9, #6078ea 100%);
+}
+
 
 a{
   color: black;
