@@ -34,65 +34,84 @@
                     <div class="section-title">
                         <h3 class="wow zoomIn" data-wow-delay=".2s">What package can offer</h3>
                         <h2 class="wow fadeInUp" data-wow-delay=".4s">Package Capabilities</h2>
-                        <p class="wow fadeInUp" data-wow-delay=".6s">There are many ways in which you can use the package</p>
+                        <p class="wow fadeInUp" data-wow-delay=".6s">
+                            There are many ways in which you can use the package...
+                            <br>
+                            below are some examples
+                        </p>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-4 col-md-6 col-12 wow fadeInUp" data-wow-delay=".2s">
-                    <div class="single-service">
-                        <div class="main-icon">
-                            <i class="fa-brands fa-square-x-twitter" style="color: #000000;"></i>
+                    <a href="{% url 'twitter' %}">
+                        <div class="single-service gradient">
+                            <div class="main-icon square-gradient">
+                                <i class="fa-brands fa-square-x-twitter" style="color: black;"></i>
+                            </div>
+                            <h4 class="text-title">Twitter</h4>
+                            <p>TODO</p>
                         </div>
-                        <h4 class="text-title">Twitter</h4>
-                        <p>TODO</p>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-lg-4 col-md-6 col-12 wow fadeInUp" data-wow-delay=".4s">
-                    <div class="single-service">
-                        <div class="main-icon">
-                            <i class="fa-solid fa-newspaper" style="color: #000000;"></i>
+                    <a href="{% url 'article' %}">
+                        <div class="single-service gradient">
+                            <div class="main-icon square-gradient">
+                                <i class="fa-solid fa-newspaper" style="color: #000000;"></i>
+                            </div>
+                            <h4 class="text-title">Article</h4>
+                            <p>TODO</p>
                         </div>
-                        <h4 class="text-title">Article</h4>
-                        <p>TODO</p>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-lg-4 col-md-6 col-12 wow fadeInUp" data-wow-delay=".6s">
-                    <div class="single-service">
-                        <div class="main-icon">
-                            <i class="fa-solid fa-file-lines" style="color: #000000;"></i>
+                    <a href="{% url 'text' %}">
+                        <div class="single-service gradient">
+                            <div class="main-icon square-gradient">
+                                <i class="fa-solid fa-file-lines" style="color: #000000;"></i>
+                            </div>
+                            <h4 class="text-title">TEXT</h4>
+                            <p>TODO</p>
                         </div>
-                        <h4 class="text-title">TEXT</h4>
-                        <p>TODO</p>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-lg-4 col-md-6 col-12 wow fadeInUp" data-wow-delay=".2s">
-                    <div class="single-service">
-                        <div class="main-icon">
-                            <i class="fa-brands fa-facebook-f" style="color: #000000;"></i>
+                    <a href="{% url 'facebook' %}">
+                        <div class="single-service gradient">
+                            <div class="main-icon square-gradient">
+                                <i class="fa-brands fa-facebook-f" style="color: #000000;"></i>
+                            </div>
+                            <h4 class="text-title">Facebook</h4>
+                            <p>TODO</p>
                         </div>
-                        <h4 class="text-title">Facebook</h4>
-                        <p>TODO</p>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-lg-4 col-md-6 col-12 wow fadeInUp" data-wow-delay=".4s">
-                    <div class="single-service">
-                        <div class="main-icon">
-                            <i class="lni lni-cloud-network"></i>
+                    <a href="{% url 'translate_text' %}">
+                        <div class="single-service gradient">
+                            <div class="main-icon square-gradient">
+                                <i class="fa-solid fa-language" style="color: #000000;"></i>
+                            </div>
+                            <h4 class="text-title">Translator</h4>
+                            <p>TODO</p>
                         </div>
-                        <h4 class="text-title">TODO</h4>
-                        <p>TODO</p>
-                    </div>
+                    </a>
                 </div>
+
+
                 <div class="col-lg-4 col-md-6 col-12 wow fadeInUp" data-wow-delay=".6s">
-                    <div class="single-service">
-                        <div class="main-icon">
-                            <i class="lni lni-display-alt"></i>
+                    <a href="{% url 'summary_text' %}">
+                        <div class="single-service gradient">
+                            <div class="main-icon square-gradient">
+                                <i class="fa-solid fa-list" style="color: #000000;"></i>
+                            </div>
+                            <h4 class="text-title">Summary</h4>
+                            <p>TODO</p>
                         </div>
-                        <h4 class="text-title">TODO</h4>
-                        <p>TODO</p>
-                    </div>
+                    </a>
                 </div>
+
             </div>
         </div>
     </div>

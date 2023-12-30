@@ -17,7 +17,7 @@
                         <div class="card mt-3">
                             <div class="card-body">
                                 <h5 class="card-title">Article text</h5>
-                                <p class="card-text text-success">
+                                <p class="card-text text-black">
                                     {% if text_article %}
                                         {{ text_article|safe }}
                                     {% else %}
@@ -34,9 +34,9 @@
                                     Article reading time
                                 </h5>
                                 {% if time_read %}
-                                    <p class="text-success">Time read: <b>{{ time_read }}</b> min</p>
+                                    <p class="text-black">Time read: <b>{{ time_read }}</b> min</p>
                                 {% else %}
-                                    <p class="text-success">Your output appear here...</p>
+                                    <p class="text-black">Your output appear here...</p>
                                 {% endif %}
                             </div>
                         </div>
@@ -58,7 +58,7 @@
                                         />
                                     {% endfor %}
                                 {% else %}
-                                    <p class="text-success">Images appear here...</p>
+                                    <p class="text-black">Images appear here...</p>
                                 {% endif %}
                             </div>
                         </div>
@@ -66,7 +66,7 @@
                         <div class="card mt-3">
                             <div class="card-body">
                                 <h5 class="card-title">Article summary</h5>
-                                <p class="card-text text-success">
+                                <p class="card-text text-black">
                                     {% if summary_article %}
                                         {{ summary_article }}
                                     {% else %}
@@ -80,7 +80,7 @@
                         <div class="card mt-3">
                             <div class="card-body">
                                 <h5 class="card-title">Analyze article sentiment</h5>
-                                <p class="card-text text-success">
+                                <p class="card-text text-black">
                                     {% if analyze_sentiment %}
                                         {{ analyze_sentiment }}
                                     {% else %}
