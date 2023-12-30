@@ -1,10 +1,19 @@
 from django.urls import path
 
-from landing_page.views import (AdjustTextComplexityView, AnalyzeSentimentView,
-                                ArticleView, BulletListView, FacebookView,
-                                IndexView, SocialMediaView, SummaryTextView,
-                                TagAndCategorizeView, TextView,
-                                TranslateTextView, TwitterView)
+from landing_page.views import (
+    AdjustTextComplexityView,
+    AnalyzeSentimentView,
+    ArticleView,
+    BulletListView,
+    FacebookView,
+    IndexView,
+    SocialMediaView,
+    SummaryTextView,
+    TagAndCategorizeView,
+    TextView,
+    TranslateTextView,
+    TwitterView,
+)
 
 urlpatterns = [
     path("", IndexView.as_view(), name="home"),

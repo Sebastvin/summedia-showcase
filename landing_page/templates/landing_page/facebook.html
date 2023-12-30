@@ -1,4 +1,6 @@
 {% extends 'landing_page/base.html' %}
+{% load static %}
+
 {% block body %}
     <section class="hero-area">
         <div class="container">
@@ -31,11 +33,9 @@
         </div>
     </section>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('fetch-data').addEventListener('click', function() {
-                document.getElementById('loading').style.display = 'block';
-            });
-        });
-    </script>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/loading.js' %}"></script>
 {% endblock %}

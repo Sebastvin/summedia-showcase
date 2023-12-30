@@ -2,8 +2,11 @@ from django.conf import settings
 from django.shortcuts import render
 from django.views import View
 from django.views.generic import TemplateView
-from summedia.fetching_data import (article_time_read, get_images_from_html,
-                                    get_text_from_article)
+from summedia.fetching_data import (
+    article_time_read,
+    get_images_from_html,
+    get_text_from_article,
+)
 from summedia.social_media import SocialMedia
 from summedia.text import Text
 
@@ -175,7 +178,7 @@ class SummaryTextView(BaseTextView):
         if text_form.is_valid() and numeric_form.is_valid():
             return self.form_valid(text_form, numeric_form)
         else:
-            return self.form_invalid(text_form, numeric_form)
+            return self.form_invalid()
 
     def form_valid(self, text_form, numeric_form):
         text = text_form.cleaned_data["text"]
@@ -184,6 +187,15 @@ class SummaryTextView(BaseTextView):
         summary_article = txt.summarize_text(text, amount_words)
         context = {
             "output": summary_article,
+            "text_form": TextInputForm(),
+            "numeric_form": NumericInputForm(),
+            "title": self.title,
+        }
+
+        return render(self.request, self.template_name, context)
+
+    def form_invalid(self):
+        context = {
             "text_form": TextInputForm(),
             "numeric_form": NumericInputForm(),
             "title": self.title,
