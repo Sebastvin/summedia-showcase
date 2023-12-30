@@ -21,7 +21,7 @@ if not IS_HEROKU_APP:
 if IS_HEROKU_APP:
     ALLOWED_HOSTS = [
         "showcase-6f9e66e0a337.herokuapp.com",
-        "summedia.online"
+        "www.summedia.online"
     ]
     OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
     SECRET_KEY = os.environ.get("SECRET_KEY")
