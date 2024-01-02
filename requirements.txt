@@ -1,5 +1,5 @@
 django
-summedia @ git+https://github.com/Sebastvin/summedia
+summedia
 gunicorn
 whitenoise
 dj-database-url
