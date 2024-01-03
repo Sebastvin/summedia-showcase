@@ -13,4 +13,4 @@ class TextInputForm(forms.Form):
 
 
 class NumericInputForm(forms.Form):
-    number = forms.IntegerField(label="Enter words number")
+    number = forms.IntegerField(label="Enter words number", min_value=1, max_value=500)

@@ -32,8 +32,8 @@
 	outline: none;
 }
 .copy-text button {
-    padding: 15px 20px;
-    background: #5784f5;
+  padding: 15px 20px;
+  background: #5784f5;
 	color: #fff;
 	font-size: 15px;
 	border: none;
@@ -2454,7 +2454,6 @@ ol {
 }
 
 .services .upper-content .title {
-  font-size: 28px;
   font-weight: 600;
   font-size: 40px;
   font-weight: 700;
