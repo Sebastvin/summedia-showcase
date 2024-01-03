@@ -16,16 +16,60 @@
 
                         <div class="card mt-3">
                             <div class="card-body">
+                                <h5 class="card-title">Article title</h5>
+                                <p class="card-text text-black">
+                                    {% if title %}
+                                        {{ title|safe }}
+                                    {% else %}
+                                        Output appear here if exist...
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="card mt-3">
+                            <div class="card-body">
                                 <h5 class="card-title">Article text</h5>
                                 <p class="card-text text-black">
                                     {% if text_article %}
                                         {{ text_article|safe }}
                                     {% else %}
-                                        Your output appear here...
+                                        Output appear here if exist...
                                     {% endif %}
                                 </p>
                             </div>
                         </div>
+
+
+                        <div class="card mt-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Article publish date</h5>
+                                <p class="card-text text-black">
+                                    {% if publish_date %}
+                                        {{ publish_date|safe }}
+                                    {% else %}
+                                        Output appear here if exist...
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+
+
+                        <div class="card mt-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Article authors</h5>
+                                <p class="card-text text-black">
+                                    {% if authors %}
+                                        {% for author in authors %}
+                                            {{ author|safe }}
+                                        {% endfor %}
+                                    {% else %}
+                                        Output appear here if exist...
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+
 
 
                         <div class="card mt-3">
@@ -36,7 +80,7 @@
                                 {% if time_read %}
                                     <p class="text-black">Time read: <b>{{ time_read }}</b> min</p>
                                 {% else %}
-                                    <p class="text-black">Your output appear here...</p>
+                                    <p class="text-black">Output appear here if exist...</p>
                                 {% endif %}
                             </div>
                         </div>
@@ -46,7 +90,7 @@
                         <div class="card mt-3">
                             <div class="card-body">
                                 <h5 class="card-title">
-                                    Images from website:
+                                    Images from article:
                                 </h5>
                                 {% if img_urls %}
                                     {% for url in img_urls %}
@@ -58,10 +102,25 @@
                                         />
                                     {% endfor %}
                                 {% else %}
-                                    <p class="text-black">Images appear here...</p>
+                                    <p class="text-black">Output appear here if exist...</p>
                                 {% endif %}
                             </div>
                         </div>
+
+{#                        <div class="card mt-3">#}
+{#                            <div class="card-body">#}
+{#                                <h5 class="card-title">#}
+{#                                    Article movies#}
+{#                                </h5>#}
+{#                                {% if movies %}#}
+{#                                    {% for movie in movies %}#}
+{#                                        <p class="text-black">{ movies }}</b> min</p>#}
+{#                                    {% endfor %}#}
+{#                                {% else %}#}
+{#                                    <p class="text-black">Your output appear here...</p>#}
+{#                                {% endif %}#}
+{#                            </div>#}
+{#                        </div>#}
 
                         <div class="card mt-3">
                             <div class="card-body">
@@ -70,7 +129,7 @@
                                     {% if summary_article %}
                                         {{ summary_article }}
                                     {% else %}
-                                        Analyze summary appear here...
+                                        Output appear here if exist...
                                     {% endif %}
                                 </p>
                             </div>
@@ -84,7 +143,34 @@
                                     {% if analyze_sentiment %}
                                         {{ analyze_sentiment }}
                                     {% else %}
-                                        Analyze sentiment appear here...
+                                        Output appear here if exist...
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="card mt-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Article meta description</h5>
+                                <p class="card-text text-black">
+                                    {% if meta_description %}
+                                        {{ meta_description|safe }}
+                                    {% else %}
+                                        Output appear here if exist...
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+
+
+                        <div class="card mt-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Article meta keywords</h5>
+                                <p class="card-text text-black">
+                                    {% if meta_keywords %}
+                                        {{ meta_keywords|safe }}
+                                    {% else %}
+                                        Output appear here if exist...
                                     {% endif %}
                                 </p>
                             </div>

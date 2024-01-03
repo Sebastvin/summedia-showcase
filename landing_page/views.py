@@ -3,9 +3,15 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic import TemplateView
 from summedia.fetching_data import (
-    article_time_read,
-    get_images_from_html,
-    get_text_from_article,
+    get_text,
+    get_time_read,
+    get_images,
+    get_publishing_date,
+    get_authors,
+    get_title,
+    get_movies,
+    get_meta_description,
+    get_meta_keywords,
 )
 from summedia.social_media import SocialMedia
 from summedia.text import Text
@@ -72,16 +78,21 @@ class TextView(View):
 class ArticleView(View):
     def get(self, request):
         form = URLInputForm()
-
         return render(request, "landing_page/article.html", {"form": form})
 
     def post(self, request):
         form = URLInputForm(request.POST)
         if form.is_valid():
             url = form.cleaned_data["url"]
-            text_article = get_text_from_article(url)
-            time_read = article_time_read(text_article)
-            img_urls = get_images_from_html(url)
+            text_article = get_text(url)
+            time_read = get_time_read(url)
+            img_urls = get_images(url)
+            publish_date = get_publishing_date(url)
+            authors = get_authors(url)
+            title = get_title(url)
+            movies = get_movies(url)
+            meta_description = get_meta_description(url)
+            meta_keywords = get_meta_keywords(url)
 
             text = Text(api_key=API_KEY)
             summary_article = text.summarize_text(text_article, 200)
@@ -95,6 +106,12 @@ class ArticleView(View):
                 "text_article": text_article,
                 "time_read": time_read,
                 "img_urls": img_urls,
+                "publish_date": publish_date,
+                "authors": authors,
+                "title": title,
+                "movies": movies,
+                "meta_description": meta_description,
+                "meta_keywords": meta_keywords,
                 "analyze_sentiment": analyze_sentiment,
                 "summary_article": summary_article,
                 "form": new_form,
@@ -115,7 +132,7 @@ class TwitterView(View):
         form = URLInputForm(request.POST)
         if form.is_valid():
             url = form.cleaned_data["url"]
-            text_article = get_text_from_article(url)
+            text_article = get_text(url)
             twitter = SocialMedia(api_key=API_KEY)
             condense_text_to_tweet = twitter.condense_text_to_tweet(
                 text_article, model_type="gpt-3.5-turbo-1106"
@@ -142,7 +159,7 @@ class FacebookView(View):
         form = URLInputForm(request.POST)
         if form.is_valid():
             url = form.cleaned_data["url"]
-            text_article = get_text_from_article(url)
+            text_article = get_text(url)
             fb = SocialMedia(api_key=API_KEY)
             post_to_facebook = fb.post_to_facebook(
                 text_article, model_type="gpt-3.5-turbo-1106"
