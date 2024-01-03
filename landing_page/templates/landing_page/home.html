@@ -13,8 +13,16 @@
                         <h1>Sum<span class="text-dark">Media</span>, specifically focused on automatic extraction</h1>
                         <p>Package a plugin integrated with the ChatGPT API, published on PyPI. The plugin enables various functionalities related to news content personalization and categorization.
                         </p>
+
+                        <div class="copy-text mt-5">
+                            <input type="text" class="text" value="pip install summedia" id="summedia" readonly>
+
+                            <!-- The button used to copy the text -->
+                            <button onclick="myFunction()"><i class="fa fa-clone"></i></button>
+                        </div>
+
                         <div class="button">
-                            <a href="https://github.com/Sebastvin/engineer-demo" class="btn ">Try here</a>
+                            <a href="https://pypi.org/project/summedia" class="btn ">Try here</a>
                         </div>
                     </div>
                 </div>
@@ -115,4 +123,20 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        let copyText = document.querySelector(".copy-text");
+        copyText.querySelector("button").addEventListener("click", function () {
+            let input = copyText.querySelector("input.text");
+            input.select();
+            document.execCommand("copy");
+            copyText.classList.add("active");
+            window.getSelection().removeAllRanges();
+            setTimeout(function () {
+                copyText.classList.remove("active");
+            }, 2500);
+        });
+    </script>
 {% endblock %}
