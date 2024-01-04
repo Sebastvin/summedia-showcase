@@ -170,7 +170,7 @@ class SummaryTextView(BaseTextView):
         summary_article = txt.summarize_text(text, amount_words)
         context = {
             "output": summary_article,
-            "text_form": TextInputForm(),
+            "text_form": text_form,
             "numeric_form": NumericInputForm(),
             "title": self.title,
         }
@@ -211,7 +211,7 @@ class AnalyzeSentimentView(BaseTextView):
 
         context = {
             "output": analyze_sentiment,
-            "text_form": TextInputForm(),
+            "text_form": text_form,
             "numeric_form": NumericInputForm(),
             "title": self.title,
         }
@@ -220,7 +220,7 @@ class AnalyzeSentimentView(BaseTextView):
 
     def form_invalid(self):
         context = {
-            "text_form": TextInputForm(),
+            "text_form": text_form,
             "numeric_form": NumericInputForm(),
             "title": self.title,
         }
@@ -237,7 +237,12 @@ class BulletListView(BaseTextView):
         text = text_form.cleaned_data["text"]
         txt = Text(api_key=API_KEY)
         to_bullet_list = txt.to_bullet_list(text)
-        context = self.get_context_data(output=to_bullet_list)
+
+        context = {
+            "output": to_bullet_list,
+            "text_form": text_form,
+            "title": self.title,
+        }
 
         return render(self.request, self.template_name, context)
 
@@ -266,7 +271,7 @@ class TranslateTextView(BaseTextView):
 
         context = {
             "output": translate_text,
-            "text_form": TextInputForm(),
+            "text_form": text_form,
             "language_form": LanguageForm(),
             "title": self.title,
         }
@@ -300,7 +305,7 @@ class AdjustTextComplexityView(BaseTextView):
 
         context = {
             "output": adjust_text_complexity,
-            "text_form": TextInputForm(),
+            "text_form": text_form,
             "complexity_form": TextComplexityForm(),
             "title": self.title,
         }
@@ -326,6 +331,11 @@ class TagAndCategorizeView(BaseTextView):
         text = text_form.cleaned_data["text"]
         txt = Text(api_key=API_KEY)
         tag_and_categorize_text = txt.tag_and_categorize_text(text)
-        context = self.get_context_data(output=tag_and_categorize_text)
+
+        context = {
+            "output": tag_and_categorize_text,
+            "text_form": text_form,
+            "title": self.title,
+        }
 
         return render(self.request, self.template_name, context)
