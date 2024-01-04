@@ -66,9 +66,6 @@ class ArticleView(View):
 
             text = Text(api_key=API_KEY)
             summary_article = text.summarize_text(text_article, 200)
-            analyze_sentiment = text.analyze_sentiment(
-                text_article, model_type="gpt-3.5-turbo-1106"
-            )
 
             new_form = URLInputForm()
 
@@ -82,7 +79,6 @@ class ArticleView(View):
                 "movies": movies,
                 "meta_description": meta_description,
                 "meta_keywords": meta_keywords,
-                "analyze_sentiment": analyze_sentiment,
                 "summary_article": summary_article,
                 "form": new_form,
             }
