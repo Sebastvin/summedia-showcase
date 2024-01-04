@@ -211,7 +211,7 @@ class AnalyzeSentimentView(BaseTextView):
         amount_words = numeric_form.cleaned_data["number"]
 
         txt = Text(api_key=API_KEY)
-        analyze_sentiment = txt.analyze_sentiment(text)
+        analyze_sentiment = txt.analyze_sentiment(text, amount_words)
 
         context = {
             "output": analyze_sentiment,

@@ -16,7 +16,7 @@
                     {% endfor %}
 
                     {% if numeric_form %}
-                        <p>Enter words number</p>
+                        <p>Enter words number, the result of the model will oscillate in this number of words</p>
                         {% for field in numeric_form %}
                             {{ field.errors }}
                             {{ field }}
@@ -32,7 +32,7 @@
                     {% endif %}
 
                     {% if complexity_form %}
-                        <p>Choose language to translate</p>
+                        <p>Select level of complexity:</p>
                         {% for field in complexity_form %}
                             {{ field.errors }}
                             {{ field }}
