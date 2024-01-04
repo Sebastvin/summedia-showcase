@@ -54,36 +54,48 @@ class ArticleView(View):
         form = URLInputForm(request.POST)
         if form.is_valid():
             url = form.cleaned_data["url"]
-            text_article = get_text(url)
-            time_read = get_time_read(url)
-            img_urls = get_images(url)
-            publish_date = get_publishing_date(url)
-            authors = get_authors(url)
-            title = get_title(url)
-            movies = get_movies(url)
-            meta_description = get_meta_description(url)
-            meta_keywords = get_meta_keywords(url)
+            try:
+                text_article = get_text(url)
+                time_read = get_time_read(url)
+                img_urls = get_images(url)
+                publish_date = get_publishing_date(url)
+                authors = get_authors(url)
+                title = get_title(url)
+                movies = get_movies(url)
+                meta_description = get_meta_description(url)
+                meta_keywords = get_meta_keywords(url)
 
-            text = Text(api_key=API_KEY)
-            summary_article = text.summarize_text(text_article, 200)
+                text = Text(api_key=API_KEY)
+                summary_article = text.summarize_text(text_article, 200)
 
-            new_form = URLInputForm()
+                new_form = URLInputForm()
 
-            context = {
-                "text_article": text_article,
-                "time_read": time_read,
-                "img_urls": img_urls,
-                "publish_date": publish_date,
-                "authors": authors,
-                "title": title,
-                "movies": movies,
-                "meta_description": meta_description,
-                "meta_keywords": meta_keywords,
-                "summary_article": summary_article,
-                "form": new_form,
-            }
+                context = {
+                    "text_article": text_article,
+                    "time_read": time_read,
+                    "img_urls": img_urls,
+                    "publish_date": publish_date,
+                    "authors": authors,
+                    "title": title,
+                    "movies": movies,
+                    "meta_description": meta_description,
+                    "meta_keywords": meta_keywords,
+                    "summary_article": summary_article,
+                    "form": new_form,
+                }
 
-            return render(request, "landing_page/article.html", context)
+                return render(request, "landing_page/article.html", context)
+            except Exception as e:
+                return render(
+                    request,
+                    "landing_page/article.html",
+                    {
+                        "form": form,
+                        "error_message": "Download error",
+                        "error_helper": "Make sure the URL is correct, no captcha security or the URL is for article",
+                    },
+                )
+
         else:
             # In case the form is not valid, re-render the page with the form containing validation errors
             return render(request, "landing_page/article.html", {"form": form})
@@ -97,20 +109,31 @@ class TwitterView(View):
     def post(self, request):
         form = URLInputForm(request.POST)
         if form.is_valid():
-            url = form.cleaned_data["url"]
-            text_article = get_text(url)
-            twitter = SocialMedia(api_key=API_KEY)
-            condense_text_to_tweet = twitter.condense_text_to_tweet(
-                text_article, model_type="gpt-3.5-turbo-1106"
-            )
+            try:
+                url = form.cleaned_data["url"]
+                text_article = get_text(url)
+                twitter = SocialMedia(api_key=API_KEY)
+                condense_text_to_tweet = twitter.condense_text_to_tweet(
+                    text_article, model_type="gpt-3.5-turbo-1106"
+                )
 
-            new_form = URLInputForm()
+                new_form = URLInputForm()
 
-            context = {
-                "form": new_form,  # Include the form in the context
-                "condense_text_to_tweet": condense_text_to_tweet,
-            }
-            return render(request, "landing_page/twitter.html", context)
+                context = {
+                    "form": new_form,  # Include the form in the context
+                    "condense_text_to_tweet": condense_text_to_tweet,
+                }
+                return render(request, "landing_page/twitter.html", context)
+            except Exception as e:
+                return render(
+                    request,
+                    "landing_page/twitter.html",
+                    {
+                        "form": form,
+                        "error_message": "Download error",
+                        "error_helper": "Make sure the URL is correct, no captcha security or the URL is for article",
+                    },
+                )
         else:
             # In case the form is not valid, re-render the page with the form containing validation errors
             return render(request, "landing_page/twitter.html", {"form": form})
@@ -124,20 +147,31 @@ class FacebookView(View):
     def post(self, request):
         form = URLInputForm(request.POST)
         if form.is_valid():
-            url = form.cleaned_data["url"]
-            text_article = get_text(url)
-            fb = SocialMedia(api_key=API_KEY)
-            post_to_facebook = fb.post_to_facebook(
-                text_article, model_type="gpt-3.5-turbo-1106"
-            )
+            try:
+                url = form.cleaned_data["url"]
+                text_article = get_text(url)
+                fb = SocialMedia(api_key=API_KEY)
+                post_to_facebook = fb.post_to_facebook(
+                    text_article, model_type="gpt-3.5-turbo-1106"
+                )
 
-            new_form = URLInputForm()
+                new_form = URLInputForm()
 
-            context = {
-                "form": new_form,  # Include the form in the context
-                "post_to_facebook": post_to_facebook,
-            }
-            return render(request, "landing_page/facebook.html", context)
+                context = {
+                    "form": new_form,  # Include the form in the context
+                    "post_to_facebook": post_to_facebook,
+                }
+                return render(request, "landing_page/facebook.html", context)
+            except Exception as e:
+                return render(
+                    request,
+                    "landing_page/facebook.html",
+                    {
+                        "form": form,
+                        "error_message": "Download error",
+                        "error_helper": "Make sure the URL is correct, no captcha security or the URL is for article",
+                    },
+                )
         else:
             # In case the form is not valid, re-render the page with the form containing validation errors
             return render(request, "landing_page/facebook.html", {"form": form})

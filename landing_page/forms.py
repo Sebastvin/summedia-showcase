@@ -5,7 +5,6 @@ from summedia.level import SimplificationLevel
 
 class TextComplexityForm(forms.Form):
     COMPLEXITY_CHOICES = [(level.name, level.value) for level in SimplificationLevel]
-
     complexity = forms.ChoiceField(choices=COMPLEXITY_CHOICES)
 
 
