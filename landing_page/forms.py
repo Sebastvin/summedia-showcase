@@ -29,7 +29,7 @@ class URLInputForm(forms.Form):
 class TextInputForm(forms.Form):
     text = forms.CharField(
         label="Enter text",
-        max_length=1000,
+        max_length=1500,
         widget=forms.Textarea(attrs={"class": "full-width-textarea"}),
     )
 
@@ -39,5 +39,6 @@ class NumericInputForm(forms.Form):
         label="Enter words number",
         min_value=1,
         max_value=500,
+        initial=100,
         widget=forms.NumberInput(attrs={"class": "w-50"}),
     )
