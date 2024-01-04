@@ -3,3 +3,4 @@ summedia==24.1.4
 gunicorn
 whitenoise
 dj-database-url
+pycountry

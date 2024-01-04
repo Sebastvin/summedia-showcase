@@ -17,7 +17,15 @@ from summedia.social_media import SocialMedia
 from summedia.text import Text
 
 from .base_view import BaseTextView
-from .forms import NumericInputForm, TextInputForm, URLInputForm
+from .forms import (
+    NumericInputForm,
+    TextInputForm,
+    URLInputForm,
+    LanguageForm,
+    TextComplexityForm,
+)
+from summedia.level import SimplificationLevel
+
 
 API_KEY = settings.OPENAI_API_KEY
 
@@ -35,44 +43,6 @@ class TextView(View):
             "landing_page/text.html",
             {"text_form": text_form, "numeric_form": numeric_form},
         )
-
-    def post(self, request):
-        text_form = TextInputForm(request.POST)
-        numeric_form = NumericInputForm(request.POST)
-
-        if text_form.is_valid() and numeric_form.is_valid():
-            url = text_form.cleaned_data["text"]
-            numeric_form = numeric_form.cleaned_data["number"]
-
-            text = Text(api_key=API_KEY)
-            summary_article = text.summarize_text(url, numeric_form)
-            analyze_sentiment = text.analyze_sentiment(url)
-            to_bullet_list = text.to_bullet_list(url)
-            translate_text = text.translate_text(url, language_to_translate="pl")
-            adjust_text_complexity = text.adjust_text_complexity(url)
-            tag_and_categorize_text = text.tag_and_categorize_text(url)
-
-            # Create a new instance of the form for rendering
-            text_form = TextInputForm()
-            numeric_form = NumericInputForm()
-
-            context = {
-                "summary_article": summary_article,
-                "analyze_sentiment": analyze_sentiment,
-                "to_bullet_list": to_bullet_list,
-                "translate_text": translate_text,
-                "adjust_text_complexity": adjust_text_complexity,
-                "tag_and_categorize_text": tag_and_categorize_text,
-                "text_form": text_form,
-                "numeric_form": numeric_form,
-            }
-            return render(request, "landing_page/text.html", context)
-        else:
-            return render(
-                request,
-                "landing_page/text.html",
-                {"text_form": text_form, "numeric_form": numeric_form},
-            )
 
 
 class ArticleView(View):
@@ -224,13 +194,40 @@ class SummaryTextView(BaseTextView):
 class AnalyzeSentimentView(BaseTextView):
     form_class = TextInputForm
     template_name = "landing_page/text_output.html"
+    extra_context = {"numeric_form": NumericInputForm}
     title = "Analyze text sentiment"
 
-    def form_valid(self, text_form):
+    def post(self, request):
+        text_form = self.form_class(request.POST)
+        numeric_form = self.extra_context["numeric_form"](request.POST)
+
+        if text_form.is_valid() and numeric_form.is_valid():
+            return self.form_valid(text_form, numeric_form)
+        else:
+            return self.form_invalid()
+
+    def form_valid(self, text_form, numeric_form):
         text = text_form.cleaned_data["text"]
+        amount_words = numeric_form.cleaned_data["number"]
+
         txt = Text(api_key=API_KEY)
-        output = txt.analyze_sentiment(text)
-        context = self.get_context_data(output=output)
+        analyze_sentiment = txt.analyze_sentiment(text)
+
+        context = {
+            "output": analyze_sentiment,
+            "text_form": TextInputForm(),
+            "numeric_form": NumericInputForm(),
+            "title": self.title,
+        }
+
+        return render(self.request, self.template_name, context)
+
+    def form_invalid(self):
+        context = {
+            "text_form": TextInputForm(),
+            "numeric_form": NumericInputForm(),
+            "title": self.title,
+        }
 
         return render(self.request, self.template_name, context)
 
@@ -252,13 +249,31 @@ class BulletListView(BaseTextView):
 class TranslateTextView(BaseTextView):
     form_class = TextInputForm
     template_name = "landing_page/text_output.html"
+    extra_context = {"language_form": LanguageForm}
     title = "Translate text"
 
-    def form_valid(self, text_form):
+    def post(self, request):
+        text_form = self.form_class(request.POST)
+        language_form = self.extra_context["language_form"](request.POST)
+
+        if text_form.is_valid() and language_form.is_valid():
+            return self.form_valid(text_form, language_form)
+        else:
+            return self.form_invalid()
+
+    def form_valid(self, text_form, language_form):
         text = text_form.cleaned_data["text"]
+        language = language_form.cleaned_data["language"]
+
         txt = Text(api_key=API_KEY)
-        translate_text = txt.translate_text(text, language_to_translate="pl")
-        context = self.get_context_data(output=translate_text)
+        translate_text = txt.translate_text(text, language_to_translate=language)
+
+        context = {
+            "output": translate_text,
+            "text_form": TextInputForm(),
+            "language_form": LanguageForm(),
+            "title": self.title,
+        }
 
         return render(self.request, self.template_name, context)
 
@@ -266,13 +281,42 @@ class TranslateTextView(BaseTextView):
 class AdjustTextComplexityView(BaseTextView):
     form_class = TextInputForm
     template_name = "landing_page/text_output.html"
+    extra_context = {"complexity_form": TextComplexityForm}
     title = "Adjustment text complexity"
 
-    def form_valid(self, text_form):
+    def post(self, request):
+        text_form = self.form_class(request.POST)
+        complexity_form = self.extra_context["complexity_form"](request.POST)
+
+        if text_form.is_valid() and complexity_form.is_valid():
+            return self.form_valid(text_form, complexity_form)
+        else:
+            return self.form_invalid()
+
+    def form_valid(self, text_form, complexity_form):
         text = text_form.cleaned_data["text"]
+        complexity = complexity_form.cleaned_data["complexity"]
         txt = Text(api_key=API_KEY)
-        adjust_text_complexity = txt.adjust_text_complexity(text)
-        context = self.get_context_data(output=adjust_text_complexity)
+
+        level = SimplificationLevel[complexity]
+
+        adjust_text_complexity = txt.adjust_text_complexity(text, level=level)
+
+        context = {
+            "output": adjust_text_complexity,
+            "text_form": TextInputForm(),
+            "complexity_form": TextComplexityForm(),
+            "title": self.title,
+        }
+
+        return render(self.request, self.template_name, context)
+
+    def form_invalid(self):
+        context = {
+            "text_form": TextInputForm(),
+            "complexity_form": TextComplexityForm(),
+            "title": self.title,
+        }
 
         return render(self.request, self.template_name, context)
 

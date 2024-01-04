@@ -23,7 +23,24 @@
                         {% endfor %}
                     {% endif %}
 
-                    <button id="fetch-data" type="submit" class="btn btn-success" >Fetch Data</button>
+                    {% if language_form %}
+                        <p>Choose language to translate</p>
+                        {% for field in language_form %}
+                            {{ field.errors }}
+                            {{ field }}
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if complexity_form %}
+                        <p>Choose language to translate</p>
+                        {% for field in complexity_form %}
+                            {{ field.errors }}
+                            {{ field }}
+                        {% endfor %}
+                    {% endif %}
+
+                    <br />
+                    <button id="fetch-data" type="submit" class="btn btn-success mt-3">Fetch Data</button>
                 </form>
 
                 <div id="loading">
