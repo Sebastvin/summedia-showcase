@@ -151,3 +151,17 @@ STORAGES = {
 # Don't store the original (un-hashed filename) version of static files, to reduce slug size:
 # https://whitenoise.readthedocs.io/en/latest/django.html#WHITENOISE_KEEP_ONLY_HASHED_FILES
 WHITENOISE_KEEP_ONLY_HASHED_FILES = True
+
+# CELERY SETTINGS
+
+if IS_HEROKU_APP:
+    CELERY_BROKER_URL = os.environ['REDIS_URL']
+else:
+    CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+
+
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
+# CELERY_RESULT_BACKEND = 'django-db'
+# CELERY_TIMEZONE = 'Asia/Karachi'
