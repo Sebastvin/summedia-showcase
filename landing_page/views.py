@@ -25,6 +25,7 @@ from .forms import (
     TextComplexityForm,
 )
 from summedia.level import SimplificationLevel
+from .tasks import post_to_facebook_task
 
 
 API_KEY = settings.OPENAI_API_KEY
@@ -156,28 +157,15 @@ class FacebookView(View):
                     text_article, model_type="gpt-3.5-turbo-1106"
                 )
 
-                # Stress test
-                text_article = get_text(url)
-                for request_ in range(10):
-                    text = Text(api_key=API_KEY)
-                    a_ = social.condense_text_to_tweet(
-                        text_article, model_type="gpt-3.5-turbo-1106"
-                    )
-                    b_ = social.condense_text_to_tweet(
-                        text_article, model_type="gpt-3.5-turbo-1106"
-                    )
-                    c_ = text.summarize_text(text_article, 200)
-
-
 
                 new_form = URLInputForm()
 
                 context = {
-                    "form": new_form,  # Include the form in the context
+                    "form": new_form,
                     "post_to_facebook": post_to_facebook,
                 }
                 return render(request, "landing_page/facebook.html", context)
-            except Exception as e:
+            except Exception:
                 return render(
                     request,
                     "landing_page/facebook.html",
