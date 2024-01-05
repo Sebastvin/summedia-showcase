@@ -157,12 +157,18 @@ class FacebookView(View):
                 )
 
                 # Stress test
-                a_ = social.condense_text_to_tweet(
-                    text_article, model_type="gpt-3.5-turbo-1106"
-                )
-                b_ = social.condense_text_to_tweet(
-                    text_article, model_type="gpt-3.5-turbo-1106"
-                )
+                text_article = get_text(url)
+                for request_ in range(10):
+                    text = Text(api_key=API_KEY)
+                    a_ = social.condense_text_to_tweet(
+                        text_article, model_type="gpt-3.5-turbo-1106"
+                    )
+                    b_ = social.condense_text_to_tweet(
+                        text_article, model_type="gpt-3.5-turbo-1106"
+                    )
+                    c_ = text.summarize_text(text_article, 200)
+
+
 
                 new_form = URLInputForm()
 
