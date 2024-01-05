@@ -1,5 +1,5 @@
 django
-summedia==24.1.5
+summedia==24.1.6
 gunicorn
 whitenoise
 dj-database-url
