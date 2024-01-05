@@ -150,8 +150,17 @@ class FacebookView(View):
             try:
                 url = form.cleaned_data["url"]
                 text_article = get_text(url)
-                fb = SocialMedia(api_key=API_KEY)
-                post_to_facebook = fb.post_to_facebook(
+                social = SocialMedia(api_key=API_KEY)
+
+                post_to_facebook = social.post_to_facebook(
+                    text_article, model_type="gpt-3.5-turbo-1106"
+                )
+
+                # Stress test
+                a_ = social.condense_text_to_tweet(
+                    text_article, model_type="gpt-3.5-turbo-1106"
+                )
+                b_ = social.condense_text_to_tweet(
                     text_article, model_type="gpt-3.5-turbo-1106"
                 )
 
