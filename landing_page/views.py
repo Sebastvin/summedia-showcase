@@ -9,7 +9,6 @@ from summedia.fetching_data import (
     get_publishing_date,
     get_authors,
     get_title,
-    get_movies,
     get_meta_description,
     get_meta_keywords,
 )
@@ -64,7 +63,6 @@ class ArticleView(View):
                 publish_date = get_publishing_date(url)
                 authors = get_authors(url)
                 title = get_title(url)
-                movies = get_movies(url)
                 meta_description = get_meta_description(url)
                 meta_keywords = get_meta_keywords(url)
 
@@ -80,7 +78,6 @@ class ArticleView(View):
                     "publish_date": publish_date,
                     "authors": authors,
                     "title": title,
-                    "movies": movies,
                     "meta_description": meta_description,
                     "meta_keywords": meta_keywords,
                     "summary_article": summary_article,
@@ -112,31 +109,20 @@ class TwitterView(View):
     def post(self, request):
         form = URLInputForm(request.POST)
         if form.is_valid():
-            try:
-                url = form.cleaned_data["url"]
+            url = form.cleaned_data["url"]
 
-                new_form = URLInputForm()
+            new_form = URLInputForm()
 
-                task_id = condense_text_to_tweet_task.delay(url, API_KEY)
+            task_id = condense_text_to_tweet_task.delay(url, API_KEY)
 
-                return render(
-                    request,
-                    "landing_page/twitter.html",
-                    {
-                        "form": new_form,  # Include the form in the context
-                        "task_id": task_id,
-                    },
-                )
-            except Exception as e:
-                return render(
-                    request,
-                    "landing_page/twitter.html",
-                    {
-                        "form": form,
-                        "error_message": "Download error",
-                        "error_helper": "Make sure the URL is correct, no captcha security or the URL is for article",
-                    },
-                )
+            return render(
+                request,
+                "landing_page/twitter.html",
+                {
+                    "form": new_form,  # Include the form in the context
+                    "task_id": task_id,
+                },
+            )
         else:
             # In case the form is not valid, re-render the page with the form containing validation errors
             return render(request, "landing_page/twitter.html", {"form": form})
