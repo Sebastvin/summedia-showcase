@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block body %}
-    <section class="hero-area">
+    <section {% if task_id %}data-task-id="{{ task_id }}"{% endif %} class="hero-area">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-12 col-md-12 col-12">
@@ -22,12 +22,8 @@
                         <div class="card mt-3">
                             <div class="card-body">
                                 <h5 class="card-title">Condensed tweet/X's</h5>
-                                <p class="card-text text-black">
-                                    {% if condense_text_to_tweet %}
-                                        {{ condense_text_to_tweet }}
-                                    {% else %}
-                                        Your output appear here...
-                                    {% endif %}
+                                <p id="output" class="card-text text-black">
+                                    Your output appear here...
                                 </p>
                             </div>
                         </div>
@@ -39,4 +35,23 @@
 {% endblock %}
 
 {% block extra_js %}
+    <script src="{% static 'js/check-task-status.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function ()
+            {
+                let heroSection = document.querySelector('.hero-area');
+                let taskId = heroSection.getAttribute('data-task-id');
+
+                if (taskId) {
+                {#console.log('Task ID:', taskId);#}
+                    let baseUrl = "{{ request.scheme }}://{{ request.get_host }}";
+                    let fullUrl = baseUrl + '/task-id/' + taskId;
+
+                    document.getElementById('loading').style.display = 'block';
+                    checkTaskStatus(taskId, fullUrl);
+                } else {
+                {#console.log('No task ID found.');#}
+                }
+            })
+    </script>
 {% endblock %}

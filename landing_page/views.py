@@ -25,7 +25,7 @@ from .forms import (
     TextComplexityForm,
 )
 from summedia.level import SimplificationLevel
-from .tasks import post_to_facebook_task
+from .tasks import post_to_facebook_task, condense_text_to_tweet_task
 from django.http import JsonResponse
 from celery.result import AsyncResult
 
@@ -114,19 +114,19 @@ class TwitterView(View):
         if form.is_valid():
             try:
                 url = form.cleaned_data["url"]
-                text_article = get_text(url)
-                twitter = SocialMedia(api_key=API_KEY)
-                condense_text_to_tweet = twitter.condense_text_to_tweet(
-                    text_article, model_type="gpt-3.5-turbo-1106"
-                )
 
                 new_form = URLInputForm()
 
-                context = {
-                    "form": new_form,  # Include the form in the context
-                    "condense_text_to_tweet": condense_text_to_tweet,
-                }
-                return render(request, "landing_page/twitter.html", context)
+                task_id = condense_text_to_tweet_task.delay(url, API_KEY)
+
+                return render(
+                    request,
+                    "landing_page/twitter.html",
+                    {
+                        "form": new_form,  # Include the form in the context
+                        "task_id": task_id,
+                    },
+                )
             except Exception as e:
                 return render(
                     request,
@@ -165,7 +165,7 @@ class FacebookView(View):
     def post(self, request):
         form = URLInputForm(request.POST)
         if form.is_valid():
-            # try:
+            try:
                 url = form.cleaned_data["url"]
 
                 task_id = post_to_facebook_task.delay(url, API_KEY)
@@ -175,17 +175,17 @@ class FacebookView(View):
                     "landing_page/facebook.html",
                     {"form": URLInputForm, "task_id": task_id},
                 )
-            # except Exception as e:
-            #     print(f"Error in submitting task: {e}")
-            #     return render(
-            #         request,
-            #         "landing_page/facebook.html",
-            #         {
-            #             "form": form,
-            #             "error_message": "Download error",
-            #             "error_helper": "Ensure the URL is correct and accessible.",
-            #         },
-            #     )
+            except Exception as e:
+                print(f"Error in submitting task: {e}")
+                return render(
+                    request,
+                    "landing_page/facebook.html",
+                    {
+                        "form": form,
+                        "error_message": "Download error",
+                        "error_helper": "Ensure the URL is correct and accessible.",
+                    },
+                )
         else:
             return render(request, "landing_page/facebook.html", {"form": form})
 
