@@ -157,10 +157,6 @@ class TaskView(View):
         )
 
 
-from django.core.serializers.json import DjangoJSONEncoder
-import json
-
-
 class FacebookView(View):
     def get(self, request):
         form = URLInputForm()
@@ -169,7 +165,7 @@ class FacebookView(View):
     def post(self, request):
         form = URLInputForm(request.POST)
         if form.is_valid():
-            try:
+            # try:
                 url = form.cleaned_data["url"]
 
                 task_id = post_to_facebook_task.delay(url, API_KEY)
@@ -179,17 +175,17 @@ class FacebookView(View):
                     "landing_page/facebook.html",
                     {"form": URLInputForm, "task_id": task_id},
                 )
-            except Exception as e:
-                print(f"Error in submitting task: {e}")
-                return render(
-                    request,
-                    "landing_page/facebook.html",
-                    {
-                        "form": form,
-                        "error_message": "Download error",
-                        "error_helper": "Ensure the URL is correct and accessible.",
-                    },
-                )
+            # except Exception as e:
+            #     print(f"Error in submitting task: {e}")
+            #     return render(
+            #         request,
+            #         "landing_page/facebook.html",
+            #         {
+            #             "form": form,
+            #             "error_message": "Download error",
+            #             "error_helper": "Ensure the URL is correct and accessible.",
+            #         },
+            #     )
         else:
             return render(request, "landing_page/facebook.html", {"form": form})
 
