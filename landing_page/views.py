@@ -26,6 +26,8 @@ from .forms import (
 )
 from summedia.level import SimplificationLevel
 from .tasks import post_to_facebook_task
+from django.http import JsonResponse
+from celery.result import AsyncResult
 
 
 API_KEY = settings.OPENAI_API_KEY
@@ -140,6 +142,25 @@ class TwitterView(View):
             return render(request, "landing_page/twitter.html", {"form": form})
 
 
+class TaskView(View):
+    def get(self, request, *args, **kwargs):
+        task_id = self.kwargs.get("task_id")
+
+        task_result = AsyncResult(task_id)
+
+        return JsonResponse(
+            {
+                "task_id": task_id,
+                "status": task_result.status,
+                "result": task_result.result if task_result.ready() else None,
+            }
+        )
+
+
+from django.core.serializers.json import DjangoJSONEncoder
+import json
+
+
 class FacebookView(View):
     def get(self, request):
         form = URLInputForm()
@@ -150,34 +171,33 @@ class FacebookView(View):
         if form.is_valid():
             try:
                 url = form.cleaned_data["url"]
-                text_article = get_text(url)
-                social = SocialMedia(api_key=API_KEY)
 
-                post_to_facebook = social.post_to_facebook(
-                    text_article, model_type="gpt-3.5-turbo-1106"
+                task_id = post_to_facebook_task.delay(url, API_KEY)
+
+                return render(
+                    request,
+                    "landing_page/facebook.html",
+                    {"form": URLInputForm, "task_id": task_id},
                 )
-
-
-                new_form = URLInputForm()
-
-                context = {
-                    "form": new_form,
-                    "post_to_facebook": post_to_facebook,
-                }
-                return render(request, "landing_page/facebook.html", context)
-            except Exception:
+            except Exception as e:
+                print(f"Error in submitting task: {e}")
                 return render(
                     request,
                     "landing_page/facebook.html",
                     {
                         "form": form,
                         "error_message": "Download error",
-                        "error_helper": "Make sure the URL is correct, no captcha security or the URL is for article",
+                        "error_helper": "Ensure the URL is correct and accessible.",
                     },
                 )
         else:
-            # In case the form is not valid, re-render the page with the form containing validation errors
             return render(request, "landing_page/facebook.html", {"form": form})
+
+    def get_task_status(self, request, task_id):
+        task_result = AsyncResult(task_id)
+        return JsonResponse(
+            {"status": task_result.status, "result": task_result.result}
+        )
 
 
 class SocialMediaView(View):
@@ -248,15 +268,6 @@ class AnalyzeSentimentView(BaseTextView):
 
         context = {
             "output": analyze_sentiment,
-            "text_form": text_form,
-            "numeric_form": NumericInputForm(),
-            "title": self.title,
-        }
-
-        return render(self.request, self.template_name, context)
-
-    def form_invalid(self):
-        context = {
             "text_form": text_form,
             "numeric_form": NumericInputForm(),
             "title": self.title,

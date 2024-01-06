@@ -13,7 +13,9 @@ from landing_page.views import (
     TextView,
     TranslateTextView,
     TwitterView,
+    TaskView,
 )
+
 
 urlpatterns = [
     path("", IndexView.as_view(), name="home"),
@@ -40,4 +42,5 @@ urlpatterns = [
         TagAndCategorizeView.as_view(),
         name="tag_and_categorize",
     ),
+    path("task-id/<str:task_id>/", TaskView.as_view(), name="task_status"),
 ]
