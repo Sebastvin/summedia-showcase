@@ -12,7 +12,7 @@ from summedia.fetching_data import (
     get_meta_description,
     get_meta_keywords,
 )
-from summedia.social_media import SocialMedia
+
 from summedia.text import Text
 
 from .base_view import BaseTextView
@@ -24,7 +24,11 @@ from .forms import (
     TextComplexityForm,
 )
 from summedia.level import SimplificationLevel
-from .tasks import post_to_facebook_task, condense_text_to_tweet_task
+from .tasks import (
+    post_to_facebook_task,
+    condense_text_to_tweet_task,
+    summarize_text_task,
+)
 from django.http import JsonResponse
 from celery.result import AsyncResult
 
@@ -205,13 +209,14 @@ class SummaryTextView(BaseTextView):
     def form_valid(self, text_form, numeric_form):
         text = text_form.cleaned_data["text"]
         amount_words = numeric_form.cleaned_data["number"]
-        txt = Text(api_key=API_KEY)
-        summary_article = txt.summarize_text(text, amount_words)
+
+        task_id = summarize_text_task.delay(text, amount_words, API_KEY)
+
         context = {
-            "output": summary_article,
             "text_form": text_form,
             "numeric_form": NumericInputForm(),
             "title": self.title,
+            "task_id": task_id,
         }
 
         return render(self.request, self.template_name, context)

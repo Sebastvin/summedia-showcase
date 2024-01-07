@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block body %}
-    <section class="hero-area">
+    <section  {% if task_id %}data-task-id="{{ task_id }}"{% endif %} class="hero-area">
         <div class="container">
             <div class="hero-content">
                 <h1>{{ title }}</h1>
@@ -48,16 +48,16 @@
                 </div>
 
 
+                {% include "landing_page/includes/error_message.html" %}
+
                 <div class="card mt-3">
                     <div class="card-body">
                         <h5 class="card-title">
                             {{ title }}
                         </h5>
-                        {% if output %}
-                            <p class="text-black">{{ output }}</p>
-                        {% else %}
-                            <p class="text-black">Your output appear here...</p>
-                        {% endif %}
+                        <p id="output" class="card-text text-black">
+                            Your output appear here...
+                        </p>
                     </div>
                 </div>
             </div>
@@ -66,5 +66,23 @@
 {% endblock %}
 
 {% block extra_js %}
+    <script src="{% static 'js/check-task-status.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function ()
+            {
+                let heroSection = document.querySelector('.hero-area');
+                let taskId = heroSection.getAttribute('data-task-id');
 
+                if (taskId) {
+                {#console.log('Task ID:', taskId);#}
+                    let baseUrl = "{{ request.scheme }}://{{ request.get_host }}";
+                    let fullUrl = baseUrl + '/task-id/' + taskId;
+
+                    document.getElementById('loading').style.display = 'block';
+                    checkTaskStatus(taskId, fullUrl);
+                } else {
+                {#console.log('No task ID found.');#}
+                }
+            })
+    </script>
 {% endblock %}

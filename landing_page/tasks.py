@@ -1,6 +1,7 @@
 from celery import shared_task
 from summedia.social_media import SocialMedia
 from summedia.fetching_data import get_text
+from summedia.text import Text
 
 
 @shared_task
@@ -28,6 +29,17 @@ def condense_text_to_tweet_task(url, api_key):
         response = twitter.condense_text_to_tweet(
             text_article, model_type="gpt-3.5-turbo-1106"
         )
+        return response
+    except Exception as e:
+        print(e)
+        return "ERROR"
+
+
+@shared_task
+def summarize_text_task(text, amount_words, api_key):
+    try:
+        txt = Text(api_key=api_key)
+        response = txt.summarize_text(text, amount_words)
         return response
     except Exception as e:
         print(e)
