@@ -4,8 +4,6 @@ Author: GrayGrids
 */
 
 (function () {
-    //===== Prealoder
-
     window.onload = function () {
         window.setTimeout(fadeout, 500);
     }

@@ -28,6 +28,11 @@ from .tasks import (
     post_to_facebook_task,
     condense_text_to_tweet_task,
     summarize_text_task,
+    analyze_sentiment_task,
+    bullet_list_task,
+    translate_text_task,
+    adjust_text_complexity_task,
+    tag_and_categorize_task,
 )
 from django.http import JsonResponse
 from celery.result import AsyncResult
@@ -250,11 +255,10 @@ class AnalyzeSentimentView(BaseTextView):
         text = text_form.cleaned_data["text"]
         amount_words = numeric_form.cleaned_data["number"]
 
-        txt = Text(api_key=API_KEY)
-        analyze_sentiment = txt.analyze_sentiment(text, amount_words)
+        task_id = analyze_sentiment_task.delay(text, amount_words, API_KEY)
 
         context = {
-            "output": analyze_sentiment,
+            "task_id": task_id,
             "text_form": text_form,
             "numeric_form": NumericInputForm(),
             "title": self.title,
@@ -270,11 +274,10 @@ class BulletListView(BaseTextView):
 
     def form_valid(self, text_form):
         text = text_form.cleaned_data["text"]
-        txt = Text(api_key=API_KEY)
-        to_bullet_list = txt.to_bullet_list(text)
+        task_id = bullet_list_task.delay(text, API_KEY)
 
         context = {
-            "output": to_bullet_list,
+            "task_id": task_id,
             "text_form": text_form,
             "title": self.title,
         }
@@ -301,13 +304,12 @@ class TranslateTextView(BaseTextView):
         text = text_form.cleaned_data["text"]
         language = language_form.cleaned_data["language"]
 
-        txt = Text(api_key=API_KEY)
-        translate_text = txt.translate_text(text, language_to_translate=language)
+        task_id = translate_text_task.delay(text, language, API_KEY)
 
         context = {
-            "output": translate_text,
+            "task_id": task_id,
             "text_form": text_form,
-            "language_form": LanguageForm(),
+            "language_form": language_form,
             "title": self.title,
         }
 
@@ -332,16 +334,13 @@ class AdjustTextComplexityView(BaseTextView):
     def form_valid(self, text_form, complexity_form):
         text = text_form.cleaned_data["text"]
         complexity = complexity_form.cleaned_data["complexity"]
-        txt = Text(api_key=API_KEY)
 
-        level = SimplificationLevel[complexity]
-
-        adjust_text_complexity = txt.adjust_text_complexity(text, level=level)
+        task_id = adjust_text_complexity_task.delay(text, complexity, API_KEY)
 
         context = {
-            "output": adjust_text_complexity,
+            "task_id": task_id,
             "text_form": text_form,
-            "complexity_form": TextComplexityForm(),
+            "complexity_form": complexity_form,
             "title": self.title,
         }
 
@@ -364,11 +363,11 @@ class TagAndCategorizeView(BaseTextView):
 
     def form_valid(self, text_form):
         text = text_form.cleaned_data["text"]
-        txt = Text(api_key=API_KEY)
-        tag_and_categorize_text = txt.tag_and_categorize_text(text)
+
+        task_id = tag_and_categorize_task.delay(text, API_KEY)
 
         context = {
-            "output": tag_and_categorize_text,
+            "task_id": task_id,
             "text_form": text_form,
             "title": self.title,
         }
