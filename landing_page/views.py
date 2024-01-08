@@ -67,6 +67,8 @@ class ArticleView(View):
             url = form.cleaned_data["url"]
             try:
                 text_article = get_text(url)
+                task_id = summarize_text_task.delay(text_article, 200, API_KEY)
+
                 time_read = get_time_read(url)
                 img_urls = get_images(url)
                 publish_date = get_publishing_date(url)
@@ -74,9 +76,6 @@ class ArticleView(View):
                 title = get_title(url)
                 meta_description = get_meta_description(url)
                 meta_keywords = get_meta_keywords(url)
-
-                text = Text(api_key=API_KEY)
-                summary_article = text.summarize_text(text_article, 200)
 
                 new_form = URLInputForm()
 
@@ -89,7 +88,7 @@ class ArticleView(View):
                     "title": title,
                     "meta_description": meta_description,
                     "meta_keywords": meta_keywords,
-                    "summary_article": summary_article,
+                    "task_id": task_id,
                     "form": new_form,
                 }
 
@@ -100,8 +99,7 @@ class ArticleView(View):
                     "landing_page/article.html",
                     {
                         "form": form,
-                        "error_message": "Download error",
-                        "error_helper": "Make sure the URL is correct, no captcha security or the URL is for article",
+                        "error_message": True,
                     },
                 )
 
@@ -184,15 +182,10 @@ class FacebookView(View):
         else:
             return render(request, "landing_page/facebook.html", {"form": form})
 
-    def get_task_status(self, request, task_id):
-        task_result = AsyncResult(task_id)
-        return JsonResponse(
-            {"status": task_result.status, "result": task_result.result}
-        )
-
 
 class SocialMediaView(View):
-    def get(self, request):
+    @staticmethod
+    def get(request):
         return render(request, "landing_page/social_media.html")
 
 

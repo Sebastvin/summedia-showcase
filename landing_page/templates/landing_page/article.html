@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block body %}
-    <section class="hero-area">
+    <section {% if task_id %}data-task-id="{{ task_id }}"{% endif %} class="hero-area">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-12 col-md-12 col-12">
@@ -15,6 +15,17 @@
                         </div>
 
                         {% include "landing_page/includes/error_message.html" %}
+
+                        {% if error_message %}
+                            <div id="error" class="card bg-danger" style="padding-top: 1.5rem; padding-bottom: 1rem;">
+                                <div class="card-title text-center">
+                                    <h3 class="text-black">
+                                        Download error
+                                    </h3>
+                                    <h6>Make sure the URL is correct, no captcha security or the URL is for article</h6>
+                                </div>
+                            </div>
+                        {% endif %}
 
                         <div class="card mt-3">
                             <div class="card-body">
@@ -113,7 +124,7 @@
                         <div class="card mt-3">
                             <div class="card-body">
                                 <h5 class="card-title">Article summary</h5>
-                                <p class="card-text text-black">
+                                <p id="output" class="card-text text-black">
                                     {% if summary_article %}
                                         {{ summary_article }}
                                     {% else %}
@@ -159,5 +170,32 @@
 {% endblock %}
 
 {% block extra_js %}
+    <script src="{% static 'js/check-task-status.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function ()
+            {
+                let heroSection = document.querySelector('.hero-area');
+                let taskId = heroSection.getAttribute('data-task-id');
 
+                let formButton = document.getElementById('fetch-data');
+
+                formButton.addEventListener('click', function() {
+                    document.getElementById('loading').style.display = 'block';
+                })
+
+
+                if (taskId) {
+                {#console.log('Task ID:', taskId);#}
+                    let baseUrl = "{{ request.scheme }}://{{ request.get_host }}";
+                    let fullUrl = baseUrl + '/task-id/' + taskId;
+
+                    document.getElementById('loading').style.display = 'block';
+                    let h3Element = document.querySelector('h3.loader-text');
+                    h3Element.innerHTML = 'Still fetching data<span id="loader" class="loader"></span>';
+                    checkTaskStatus(taskId, fullUrl);
+                } else {
+                {#console.log('No task ID found.');#}
+                }
+            })
+    </script>
 {% endblock %}
