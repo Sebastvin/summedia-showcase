@@ -177,25 +177,29 @@
                 let heroSection = document.querySelector('.hero-area');
                 let taskId = heroSection.getAttribute('data-task-id');
 
-                let formButton = document.getElementById('fetch-data');
 
-                formButton.addEventListener('click', function() {
-                    document.getElementById('loading').style.display = 'block';
+                let form = document.querySelector('form');
+                document.getElementById('fetch-data').addEventListener('click', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        form.reportValidity();
+                    } else {
+
+                        document.getElementById('loading').style.display = 'block';
+                    }
                 })
 
-
                 if (taskId) {
-                {#console.log('Task ID:', taskId);#}
+
                     let baseUrl = "{{ request.scheme }}://{{ request.get_host }}";
                     let fullUrl = baseUrl + '/task-id/' + taskId;
 
                     document.getElementById('loading').style.display = 'block';
                     let h3Element = document.querySelector('h3.loader-text');
                     h3Element.innerHTML = 'Still fetching data<span id="loader" class="loader"></span>';
+
                     checkTaskStatus(taskId, fullUrl);
-                } else {
-                {#console.log('No task ID found.');#}
                 }
-            })
+            });
     </script>
 {% endblock %}
